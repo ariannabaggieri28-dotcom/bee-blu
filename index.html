@@ -1,0 +1,850 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Bee&amp;blu: un trilocale luminoso in via Bressanone, Milano. Self check-in, check-in online e consigli su cosa fare in città.">
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<title>Bee&amp;blu Milano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;0,9..40,900&display=swap">
+<style>
+/* Layout: mobile first. Una colonna stile telefono; su schermi larghi resta centrata su fondo azzurro finché non disegniamo il desktop. Forme a goccia come il logo, un solo accento: il blu. */
+:root {
+  --blu: #003DB2;
+  --blu-forte: #002C82;
+  --crema: #FEFDF8;
+  --cielo: #E5ECFB;
+  --inchiostro: #0B1B44;
+  --tenue: #4C5A7D;
+  --bordo: #D3DDF5;
+  --bg: var(--crema);
+  --fondo-esterno: #DCE5FA;
+  --fg: var(--inchiostro);
+  --superficie: #FFFFFF;
+  --su-blu: #FEFDF8;
+  --errore: #C8322A;
+  --wa: #1FA855;
+  --font: "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r-blob: 40px;
+  --r-pill: 999px;
+  --g: 20px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #07122E; --fondo-esterno: #030A1C; --fg: #F1F3FB; --superficie: #0E1C45; --cielo: #13265A;
+    --tenue: #A9B6D8; --bordo: #263C7A; --blu: #6E96FF; --blu-forte: #2A5BDB; --su-blu: #07122E; --errore: #FF7A70; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #07122E; --fondo-esterno: #030A1C; --fg: #F1F3FB; --superficie: #0E1C45; --cielo: #13265A;
+  --tenue: #A9B6D8; --bordo: #263C7A; --blu: #6E96FF; --blu-forte: #2A5BDB; --su-blu: #07122E; --errore: #FF7A70; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+body { margin: 0; background: var(--fondo-esterno); color: var(--fg); font-family: var(--font); font-size: 17px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+.sito { max-width: 440px; margin: 0 auto; background: var(--bg); min-height: 100vh; position: relative; overflow-x: clip; }
+@media (min-width: 520px) { .sito { margin-block: 24px; border-radius: 36px; box-shadow: 0 30px 80px rgba(0, 30, 100, .18); } }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--blu); outline-offset: 3px; border-radius: 12px; }
+h1, h2, h3 { margin: 0; line-height: 0.95; letter-spacing: -0.04em; text-wrap: balance; font-weight: 900; }
+p { margin: 0; }
+.etichetta { font-size: 15px; font-weight: 700; color: var(--blu); }
+
+.logo-crema { display: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .logo-blu { display: none; } :root:not([data-theme="light"]) .logo-crema { display: block; } }
+:root[data-theme="dark"] .logo-blu { display: none; }
+:root[data-theme="dark"] .logo-crema { display: block; }
+
+/* header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; align-items: center; gap: 10px; padding: 10px var(--g); }
+@media (min-width: 520px) { .top { border-radius: 36px 36px 0 0; } }
+.top .marchio { display: flex; align-items: center; text-decoration: none; margin-right: auto; }
+.top .marchio img { width: 40px; height: auto; }
+.top .btn { padding: 10px 16px; font-size: 15px; }
+.lingua { display: flex; background: var(--cielo); border-radius: var(--r-pill); padding: 3px; }
+.lingua button { font: inherit; font-size: 14px; font-weight: 700; border: 0; background: transparent; color: var(--tenue); padding: 7px 11px; border-radius: var(--r-pill); cursor: pointer; }
+.lingua button[aria-pressed="true"] { background: var(--superficie); color: var(--blu); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; cursor: pointer; font: inherit; font-weight: 700; font-size: 17px; text-decoration: none; border-radius: var(--r-pill); padding: 15px 22px; background: var(--blu); color: var(--su-blu); transition: transform .15s ease; }
+.btn:active { transform: scale(.97); }
+.btn.vuoto { background: transparent; color: var(--fg); box-shadow: inset 0 0 0 2px var(--bordo); }
+.btn.chiaro { background: var(--cielo); color: var(--blu); }
+.btn.largo { width: 100%; }
+.btn[disabled] { opacity: .4; cursor: not-allowed; }
+
+/* hero */
+.hero { padding: 8px var(--g) 40px; }
+.hero { padding-top: 26px; }
+.hero .cornice { position: relative; aspect-ratio: 4 / 5; max-width: 100%; }
+.hero .cornice img { border-radius: 34px; background: var(--cielo); box-shadow: 0 22px 50px rgba(0, 30, 100, .16); }
+.hero .cornice img { width: 100%; height: 100%; object-fit: cover; }
+.hero .bollo { position: absolute; right: -8px; top: -22px; z-index: 2; width: 112px; aspect-ratio: 1; border-radius: 50%; background: var(--bg); display: grid; place-items: center; box-shadow: 0 14px 30px rgba(0, 30, 100, .22), inset 0 0 0 3px var(--bg); transform: rotate(-8deg); animation: galleggia 5s ease-in-out infinite; }
+.hero .bollo img { width: 74%; }
+@keyframes galleggia { 0%, 100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-10px) rotate(4deg); } }
+.hero h1 { font-size: 76px; color: var(--blu); margin-top: 26px; }
+.hero .lead { margin-top: 16px; font-size: 19px; color: var(--tenue); }
+.hero .azioni { display: grid; gap: 10px; margin-top: 24px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.chip { font-size: 14px; font-weight: 500; padding: 7px 13px; border-radius: var(--r-pill); background: var(--cielo); color: var(--fg); }
+
+.blocco { padding: 48px var(--g); }
+h2.titolo { font-size: 50px; margin-top: 10px; }
+.intro { margin-top: 14px; color: var(--tenue); font-size: 17px; }
+
+/* casa */
+.casa figure { margin: 22px 0 0; }
+.casa figure img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: var(--r-blob) var(--r-blob) var(--r-blob) 140px; }
+.casa figcaption { margin-top: 10px; font-size: 14px; color: var(--tenue); }
+.dotazioni { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 20px 0 0; padding: 0; }
+.dotazioni li { list-style: none; display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 15px; padding: 13px 14px; background: var(--superficie); border-radius: 18px; box-shadow: inset 0 0 0 1px var(--bordo); min-width: 0; }
+.dotazioni svg { width: 22px; height: 22px; flex: none; color: var(--blu); }
+
+/* soggiorno */
+.passi { display: grid; gap: 10px; margin: 24px 0 0; padding: 0; }
+.passi li { list-style: none; display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; align-items: center; background: var(--cielo); border-radius: 28px; padding: 18px; }
+.passi .n { grid-row: span 2; width: 44px; height: 44px; border-radius: 50%; background: var(--blu); color: var(--su-blu); display: grid; place-items: center; font-weight: 800; font-size: 19px; }
+.passi h3 { font-size: 21px; letter-spacing: -0.02em; line-height: 1.1; }
+.passi p { color: var(--tenue); font-size: 15px; }
+
+/* milano */
+.milano { background: var(--cielo); border-radius: var(--r-blob); margin-inline: 8px; padding: 40px 0 28px; }
+.milano .pad { padding-inline: 24px; }
+.filtri { display: flex; gap: 8px; overflow-x: auto; padding: 18px 24px 4px; scrollbar-width: none; }
+.filtri::-webkit-scrollbar { display: none; }
+.filtri button { flex: none; font: inherit; font-size: 15px; font-weight: 700; padding: 9px 16px; border-radius: var(--r-pill); border: 0; background: var(--superficie); color: var(--fg); cursor: pointer; }
+.filtri button[aria-pressed="true"] { background: var(--blu); color: var(--su-blu); }
+.idee { display: grid; gap: 10px; margin-top: 14px; padding-inline: 12px; }
+.idea { background: var(--superficie); border-radius: 28px; padding: 18px 18px 16px; display: grid; gap: 8px; }
+.idea.evidenza { box-shadow: 0 0 0 3px var(--blu); animation: pop .5s ease; }
+@keyframes pop { 40% { transform: scale(1.03); } }
+.idea .testa { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.idea h3 { font-size: 22px; letter-spacing: -0.02em; line-height: 1.1; }
+.idea .dove-quando { font-size: 14px; color: var(--tenue); }
+.idea p { font-size: 15px; color: var(--tenue); }
+.idea .link { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.idea .link a { font-size: 14px; font-weight: 700; text-decoration: none; padding: 8px 14px; border-radius: var(--r-pill); background: var(--cielo); color: var(--blu); }
+.idea .link a.primo { background: var(--blu); color: var(--su-blu); }
+.badge { flex: none; font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: var(--r-pill); background: var(--cielo); color: var(--blu); white-space: nowrap; }
+.badge.forte { background: var(--blu); color: var(--su-blu); }
+.sorpresa { margin: 16px 12px 0; }
+.aggiornato { font-size: 13px; color: var(--tenue); margin: 14px 24px 0; }
+.vuoto-msg { text-align: center; color: var(--tenue); padding: 24px; }
+
+/* dove */
+.orari { display: grid; margin: 20px 0 0; }
+.orari div { display: flex; justify-content: space-between; gap: 16px; padding-block: 14px; border-bottom: 1px solid var(--bordo); }
+.orari dt { color: var(--tenue); }
+.orari dd { margin: 0; font-weight: 700; text-align: right; }
+
+/* check-in */
+.checkin { background: var(--blu); color: var(--su-blu); border-radius: var(--r-blob); margin-inline: 8px; padding: 40px 12px 14px; }
+.checkin .pad { padding-inline: 12px; }
+.checkin .etichetta { color: var(--su-blu); opacity: .8; }
+.checkin h2 { font-size: 52px; margin-top: 10px; }
+.checkin .intro { color: var(--su-blu); opacity: .85; }
+.rassicura { margin: 20px 0 0; padding: 0; display: grid; gap: 10px; }
+.rassicura li { list-style: none; display: flex; gap: 10px; align-items: flex-start; font-size: 15px; }
+.rassicura svg { flex: none; width: 20px; height: 20px; margin-top: 1px; }
+.pannello { background: var(--superficie); color: var(--fg); border-radius: 30px; padding: 22px 18px; margin-top: 24px; }
+.avanzamento { display: flex; gap: 6px; margin-bottom: 20px; }
+.avanzamento span { flex: 1; height: 6px; border-radius: 6px; background: var(--cielo); transition: background .3s; }
+.avanzamento span.on { background: var(--blu); }
+.pannello h3 { font-size: 30px; letter-spacing: -0.03em; }
+.pannello .sotto { color: var(--tenue); margin-top: 8px; font-size: 15px; }
+.campi { display: grid; gap: 14px; margin-top: 20px; }
+.campo { display: grid; gap: 6px; min-width: 0; }
+.campo label { font-size: 14px; font-weight: 700; }
+.campo input, .campo select { font: inherit; font-size: 17px; width: 100%; padding: 14px 16px; border-radius: 16px; border: 2px solid var(--bordo); background: var(--bg); color: var(--fg); min-width: 0; }
+.campo input:focus, .campo select:focus { outline: none; border-color: var(--blu); }
+.campo input.codice { letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700; font-variant-numeric: tabular-nums; }
+.campo.errore input, .campo.errore select { border-color: var(--errore); }
+.campo .msg { font-size: 13px; color: var(--errore); font-weight: 500; }
+.seg { display: flex; gap: 8px; }
+.seg button { flex: 1; font: inherit; font-size: 15px; font-weight: 700; padding: 12px 8px; border-radius: var(--r-pill); border: 2px solid var(--bordo); background: var(--bg); color: var(--fg); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--blu); border-color: var(--blu); color: var(--su-blu); }
+.azioni-p { display: grid; grid-template-columns: auto 1fr; gap: 10px; margin-top: 22px; }
+.azioni-p.solo { grid-template-columns: 1fr; }
+.doc { margin-top: 20px; border: 2px dashed var(--bordo); border-radius: 24px; padding: 18px; display: flex; gap: 14px; align-items: center; cursor: pointer; position: relative; }
+.doc input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.doc .ico { width: 52px; height: 52px; flex: none; border-radius: 16px; background: var(--cielo); display: grid; place-items: center; color: var(--blu); }
+.doc .ico svg { width: 26px; height: 26px; }
+.doc strong { display: block; font-size: 16px; }
+.doc span { font-size: 14px; color: var(--tenue); }
+.doc.letto { border-style: solid; border-color: var(--blu); background: var(--cielo); }
+.doc .anteprima { width: 52px; height: 52px; flex: none; border-radius: 16px; object-fit: cover; }
+.prenot { margin-top: 16px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.prenot div { background: var(--cielo); border-radius: 18px; padding: 12px; min-width: 0; }
+.prenot small { display: block; font-size: 12px; color: var(--tenue); }
+.prenot b { font-size: 19px; font-variant-numeric: tabular-nums; }
+.riepilogo { margin-top: 18px; display: grid; gap: 8px; }
+.riepilogo .persona { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 20px; background: var(--cielo); }
+.riepilogo .persona b { display: block; }
+.riepilogo .persona small { color: var(--tenue); font-size: 13px; }
+.consenso { display: flex; gap: 12px; align-items: flex-start; margin-top: 18px; font-size: 14px; color: var(--tenue); }
+.consenso input { width: 22px; height: 22px; accent-color: var(--blu); flex: none; margin-top: 1px; }
+.consenso button { font: inherit; color: var(--blu); font-weight: 700; background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; }
+.fatto { text-align: center; padding-block: 8px; display: grid; justify-items: center; gap: 12px; }
+.fatto .ape { width: 110px; }
+.fatto h3 { font-size: 44px; }
+
+/* footer */
+footer { padding: 48px var(--g) 110px; display: grid; gap: 18px; justify-items: start; }
+footer .logo-grande { width: 150px; }
+footer .grosso { font-size: 38px; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+footer p { color: var(--tenue); font-size: 15px; }
+.legale { display: grid; gap: 4px; font-size: 13px; color: var(--tenue); padding-top: 16px; border-top: 1px solid var(--bordo); width: 100%; }
+.legale b { color: var(--fg); font-variant-numeric: tabular-nums; }
+.legale .btn { margin-top: 10px; padding: 10px 16px; font-size: 14px; justify-self: start; }
+
+/* privacy */
+.privacy { position: fixed; inset: 0; z-index: 40; background: var(--bg); overflow-y: auto; }
+.privacy .dentro { max-width: 440px; margin: 0 auto; padding: calc(16px + env(safe-area-inset-top, 0px)) var(--g) calc(40px + env(safe-area-inset-bottom, 0px)); }
+.privacy .chiudi { position: sticky; top: 0; display: flex; justify-content: flex-end; padding-block: 4px 12px; background: var(--bg); }
+.privacy h2 { font-size: 44px; }
+.privacy h3 { font-size: 20px; letter-spacing: -0.02em; line-height: 1.15; margin-top: 26px; }
+.privacy p, .privacy li { font-size: 15px; color: var(--tenue); margin-top: 8px; }
+.privacy ul { padding-left: 20px; margin: 0; }
+.privacy .data { margin-top: 10px; font-size: 13px; }
+
+/* whatsapp fisso */
+.wa { position: fixed; z-index: 30; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); right: max(16px, calc(50vw - 220px + 16px)); display: inline-flex; align-items: center; gap: 8px; padding: 13px 18px 13px 14px; border-radius: var(--r-pill); background: var(--wa); color: #FFFFFF; font-weight: 700; font-size: 15px; text-decoration: none; box-shadow: 0 10px 30px rgba(0, 40, 20, .25); }
+.wa svg { width: 24px; height: 24px; }
+.wa { transition: opacity .25s ease, transform .25s ease; }
+.wa.nascosto { opacity: 0; transform: translateY(20px); pointer-events: none; }
+.logo-m { display: block; aspect-ratio: 263 / 297; background: var(--blu); -webkit-mask: url(img/logo.svg) center / contain no-repeat; mask: url(img/logo.svg) center / contain no-repeat; }
+.top .marchio .logo-m { width: 40px; }
+.hero .bollo .logo-m { width: 74%; }
+footer .logo-grande { width: 150px; }
+.fatto .ape { width: 110px; }
+.foto-sito { background: var(--cielo); }
+</style>
+<style>[hidden]{display:none!important} html{color-scheme:light} body{margin:0}</style>
+<div class="sito">
+<header class="top">
+  <a class="marchio" href="#inizio" aria-label="Bee&amp;blu">
+    <span class="logo-m " aria-hidden="true"></span>
+  </a>
+  <div class="lingua" role="group" aria-label="Lingua / Language">
+    <button type="button" data-lingua="it" aria-pressed="true">IT</button>
+    <button type="button" data-lingua="en" aria-pressed="false">EN</button>
+  </div>
+  <a class="btn" href="#checkin" data-t="nav.checkin">Check-in</a>
+</header>
+
+<main id="inizio">
+  <section class="hero">
+    <div class="cornice">
+      <img src="img/casa-2-s.jpg" onerror="this.style.visibility='hidden'" data-t-alt="alt.hero" alt="">
+      <div class="bollo" aria-hidden="true">
+        <span class="logo-m " aria-hidden="true"></span>
+      </div>
+    </div>
+    <h1 data-t="hero.titolo"></h1>
+    <p class="lead" data-t="hero.lead"></p>
+    <div class="azioni">
+      <a class="btn largo" href="#casa" data-t="hero.cta1"></a>
+      <a class="btn largo chiaro" href="#milano" data-t="hero.cta2"></a>
+    </div>
+    <div class="chips">
+      <span class="chip" data-t="chip.trilocale"></span>
+      <span class="chip" data-t="chip.self"></span>
+      <span class="chip" data-t="chip.balcone"></span>
+      <span class="chip">Via Bressanone</span>
+    </div>
+  </section>
+
+  <section class="blocco casa" id="casa">
+    <p class="etichetta" data-t="casa.et"></p>
+    <h2 class="titolo" data-t="casa.titolo"></h2>
+    <p class="intro" data-t="casa.intro"></p>
+    <figure>
+      <img src="img/casa-1-s.jpg" onerror="this.style.visibility='hidden'" data-t-alt="alt.casa" alt="" loading="lazy">
+      <figcaption data-t="casa.didascalia"></figcaption>
+    </figure>
+    <ul class="dotazioni">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/></svg>Wi-Fi</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V11h14v10M5 15h14M9 11V7h6v4"/><path d="M17.3 5H6.7a4 4 0 0 0-4 3.6L2 15a3 3 0 0 0 5.2 2.1L9 15h6l1.8 2.1A3 3 0 0 0 22 15l-.7-6.4A4 4 0 0 0 17.3 5z"/></svg><span data-t="dot.balcone"></span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11V9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2"/><rect x="2" y="11" width="20" height="6" rx="2"/><path d="M5 17v3M19 17v3"/></svg><span data-t="dot.divano"></span></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span data-t="dot.luce"></span></li>
+    </ul>
+  </section>
+
+  <section class="blocco" id="soggiorno" style="padding-top:8px">
+    <p class="etichetta" data-t="sog.et"></p>
+    <h2 class="titolo" data-t="sog.titolo"></h2>
+    <p class="intro" data-t="sog.intro"></p>
+    <ol class="passi">
+      <li><span class="n">1</span><h3 data-t="sog.p1t"></h3><p data-t="sog.p1"></p></li>
+      <li><span class="n">2</span><h3 data-t="sog.p2t"></h3><p data-t="sog.p2"></p></li>
+      <li><span class="n">3</span><h3 data-t="sog.p3t"></h3><p data-t="sog.p3"></p></li>
+      <li><span class="n">4</span><h3 data-t="sog.p4t"></h3><p data-t="sog.p4"></p></li>
+    </ol>
+  </section>
+
+  <section class="milano" id="milano" aria-labelledby="milano-titolo">
+    <div class="pad">
+      <p class="etichetta" data-t="mi.et"></p>
+      <h2 class="titolo" id="milano-titolo" data-t="mi.titolo"></h2>
+      <p class="intro" data-t="mi.intro"></p>
+    </div>
+    <div class="filtri" role="group" aria-label="Filtri">
+      <button type="button" data-filtro="tutto" aria-pressed="true" data-t="mi.f.tutto"></button>
+      <button type="button" data-filtro="mostre" aria-pressed="false" data-t="mi.f.mostre"></button>
+      <button type="button" data-filtro="gratis" aria-pressed="false" data-t="mi.f.gratis"></button>
+      <button type="button" data-filtro="sempre" aria-pressed="false" data-t="mi.f.sempre"></button>
+    </div>
+    <div class="idee" id="idee" aria-live="polite"></div>
+    <div class="sorpresa"><button class="btn largo" type="button" id="sorprendimi" data-t="mi.sorpresa"></button></div>
+    <p class="aggiornato" id="aggiornato"></p>
+  </section>
+
+  <section class="blocco" id="dove">
+    <p class="etichetta" data-t="dove.et"></p>
+    <h2 class="titolo">Via Bressanone, Milano.</h2>
+    <p class="intro" data-t="dove.intro"></p>
+    <dl class="orari">
+      <div><dt>Check-in</dt><dd data-t="dove.in"></dd></div>
+      <div><dt>Check-out</dt><dd data-t="dove.out"></dd></div>
+      <div><dt data-t="dove.ingresso"></dt><dd data-t="dove.codice"></dd></div>
+    </dl>
+    <a class="btn largo vuoto" style="margin-top:22px" href="https://www.google.com/maps/search/?api=1&amp;query=Via+Bressanone+Milano" target="_blank" rel="noopener" data-t="dove.mappa"></a>
+  </section>
+
+  <section class="checkin" id="checkin" aria-labelledby="checkin-titolo">
+    <div class="pad">
+      <p class="etichetta">Check-in online</p>
+      <h2 id="checkin-titolo" data-t="ci.titolo"></h2>
+      <p class="intro" data-t="ci.intro"></p>
+      <ul class="rassicura">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="3"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span data-t="ci.r1"></span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg><span data-t="ci.r2"></span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-t="ci.r3"></span></li>
+      </ul>
+    </div>
+    <div class="pannello" aria-live="polite">
+      <div class="avanzamento" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+      <div id="schermo"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span class="logo-m logo-grande" role="img" aria-label="Bee&amp;blu"></span>
+  <p class="grosso" data-t="foot.titolo"></p>
+  <p data-t="foot.testo"></p>
+  <div class="legale">
+    <span>CIN: <b>IT015146C2X7JIZOSA</b></span>
+    <span>CIR: <b>015146-XXX-XXXXX</b></span>
+    <button class="btn vuoto" type="button" data-apri-privacy data-t="foot.privacy"></button>
+  </div>
+</footer>
+
+<a class="wa" id="wa" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3z"/></svg>
+  <span data-t="wa"></span>
+</a>
+</div>
+
+<div class="privacy" id="privacy" role="dialog" aria-modal="true" aria-labelledby="privacy-titolo" hidden>
+  <div class="dentro">
+    <div class="chiudi"><button class="btn chiaro" type="button" id="chiudi-privacy" data-t="priv.chiudi"></button></div>
+    <div id="privacy-testo"></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  // ====== Da completare prima della pubblicazione ======
+  const WHATSAPP_NUMERO = '';                 // es. 393331234567
+  const TITOLARE = '[Nome e Cognome]';         // titolare del trattamento
+  const EMAIL_PRIVACY = '[email di contatto]';
+  // =====================================================
+
+  const T = {
+    it: {
+      'nav.checkin': 'Check-in',
+      'alt.hero': 'Soggiorno con divano in velluto, Smart TV, palma e specchi a forma di nuvola',
+      'alt.casa': 'Camera matrimoniale con letto bianco, armadio con ante in vetro e quadri alle pareti',
+      'hero.titolo': 'Bee&amp;Blu, Milano.',
+      'hero.lead': 'Trilocale con due camere e balcone privato in via Bressanone, zona Certosa. Fino a 3 ospiti, self check-in, a pochi minuti da tram 14 e M1.',
+      'hero.cta1': 'Scopri la casa', 'hero.cta2': 'Cosa fare a Milano',
+      'chip.trilocale': 'Fino a 3 ospiti', 'chip.self': 'Self check-in', 'chip.balcone': 'Balcone privato',
+      'casa.et': 'La casa', 'casa.titolo': 'Due camere, soggiorno e balcone.',
+      'casa.intro': 'Una camera con letto matrimoniale, una con letto singolo, soggiorno e cucina attrezzata con forno e piano cottura. Casa tutta elettrica, con aria condizionata e Wi-Fi.',
+      'casa.didascalia': 'La camera matrimoniale.',
+      'dot.divano': '2 camere da letto', 'dot.luce': 'Aria condizionata', 'dot.balcone': 'Balcone privato',
+      'sog.et': 'Il soggiorno', 'sog.titolo': 'Self check-in dalle 15:00.', 'sog.intro': 'Nessun appuntamento per le chiavi: entri con un codice.',
+      'sog.p1t': 'Prenoti', 'sog.p1': 'Su Airbnb o Booking.',
+      'sog.p2t': 'Check-in online', 'sog.p2': 'Ricevi un link e registri gli ospiti, come richiesto dalla legge.',
+      'sog.p3t': 'Ricevi il codice', 'sog.p3': "Il giorno prima dell'arrivo ti mando il codice del tastierino.",
+      'sog.p4t': 'Entri', 'sog.p4': 'Dalle 15:00. Il check-out è entro le 11:00.',
+      'mi.et': 'Cosa fare a Milano', 'mi.titolo': 'Mostre e posti da vedere.', 'mi.intro': 'Le mostre in corso e qualche posto che consiglio sempre.',
+      'mi.f.tutto': 'Tutto', 'mi.f.mostre': 'Mostre', 'mi.f.gratis': 'Gratis', 'mi.f.sempre': 'Sempre belli',
+      'mi.sorpresa': 'Non so cosa fare, sorprendimi',
+      'mi.aggiornato': 'Mostre aggiornate al {d}.', 'mi.vuoto': 'Niente in questa categoria al momento.',
+      'mi.fino': 'fino al {d}', 'mi.libero': 'ingresso libero', 'mi.sito': 'Sito ufficiale', 'mi.arrivo': 'Come arrivarci',
+      'mi.incorso': 'In corso', 'mi.apre': 'Apre il {d}', 'mi.ultimo': 'Ultimo giorno', 'mi.ultimi': 'Ultimi {n} giorni', 'mi.gratis': 'Gratis',
+      'dove.et': 'Dove siamo', 'dove.intro': "Zona Certosa, residenziale e tranquilla. Tram 14 e metro M1 a pochi minuti: comodo per Rho Fiera, San Siro e il centro. L'indirizzo esatto arriva dopo la prenotazione.",
+      'dove.in': 'dalle 15:00', 'dove.out': 'entro le 11:00', 'dove.ingresso': 'Ingresso', 'dove.codice': 'autonomo, con codice', 'dove.mappa': 'Apri in Google Maps',
+      'ci.titolo': 'Registra gli ospiti prima di arrivare.',
+      'ci.intro': 'Per legge dobbiamo comunicare alla Polizia di Stato i dati di chi soggiorna. Bastano un paio di minuti.',
+      'ci.r1': "Dati su server in Europa, visibili solo all'host.", 'ci.r2': 'Le foto dei documenti si cancellano dopo la registrazione.', 'ci.r3': 'Il documento serve solo a chi prenota.',
+      'ci.cerca': 'Trova la tua prenotazione', 'ci.cercaSotto': 'Usa il link che ti ho mandato, oppure il codice della prenotazione Airbnb o Booking.', 'ci.codice': 'Codice di check-in',
+      'ci.continua': 'Continua', 'ci.nonTrovato': 'Non troviamo questo codice. Controlla il messaggio di benvenuto o scrivimi su WhatsApp.',
+      'ci.ciao': 'Ciao {n}!', 'ci.arrivo': 'Arrivo', 'ci.notti': 'Notti', 'ci.ospiti': 'Ospiti',
+      'ci.viaggiate': 'Viaggiate come', 'ci.famiglia': 'Famiglia o coppia', 'ci.gruppo': 'Amici',
+      'ci.foto': 'Fotografa il documento', 'ci.fotoSotto': "Carta d'identità o passaporto.", 'ci.fotoOk': 'Documento caricato', 'ci.fotoOkSotto': 'Ora compila i campi qui sotto come sul documento.',
+      'ci.ospiteN': 'Ospite {i} di {n}', 'ci.ospiteSotto': 'Per chi viaggia con te bastano i dati anagrafici.',
+      'ci.nome': 'Nome', 'ci.cognome': 'Cognome', 'ci.nascita': 'Data di nascita', 'ci.sesso': 'Sesso', 'ci.seleziona': 'Seleziona', 'ci.f': 'Femmina', 'ci.m': 'Maschio',
+      'ci.paese': 'Paese di nascita', 'ci.comune': 'Comune di nascita', 'ci.comuneEs': 'Es. Milano', 'ci.citt': 'Cittadinanza', 'ci.resid': 'Paese in cui vivi', 'ci.residCom': 'Comune in cui vivi', 'ci.residLoc': 'Città in cui vivi', 'ci.residEs': 'Es. Milano', 'ci.residLocEs': 'Es. Lyon',
+      'ci.tdoc': 'Documento', 'ci.ndoc': 'Numero documento', 'ci.rilascio': 'Rilasciato a / da', 'ci.rilascioEs': 'Comune o Paese',
+      'ci.indietro': 'Indietro', 'ci.avanti': 'Avanti', 'ci.rivedi': 'Rivedi', 'ci.obblig': 'Campo obbligatorio',
+      'ci.giusto': 'Tutto giusto?', 'ci.giustoSotto': 'I nomi devono essere scritti come sul documento.',
+      'ci.consenso': 'Confermo che i dati sono corretti e ho letto l\'<button type="button" data-apri-privacy>informativa privacy</button>.',
+      'ci.modifica': 'Modifica', 'ci.completa': 'Completa',
+      'ci.fatto': 'Fatto!', 'ci.fattoSotto': "Check-in completato per {n} {o}. Il giorno prima dell'arrivo ricevi il codice per entrare.", 'ci.ospite1': 'ospite', 'ci.ospiteN2': 'ospiti',
+      'ci.ricomincia': 'Ricomincia', 'ci.cercando': 'Cerco…', 'ci.inviando': 'Invio…', 'ci.offline': 'Connessione assente. Controlla internet e riprova.', 'ci.bloccato': 'Il check-in per questa prenotazione è già stato registrato. Per modifiche scrivimi su WhatsApp.', 'ci.gia': 'Hai già fatto il check-in: se reinvii, i nuovi dati sostituiscono i precedenti.', 'ci.erroreInvio': 'Non sono riuscita a salvare. Riprova tra poco o scrivimi su WhatsApp.', 'ci.erroreFoto': 'La foto del documento non è valida o è troppo grande. Caricane un\'altra.', 'ci.paeseEs': 'Inizia a scrivere…',
+      'ruolo.singolo': 'Ospite singolo', 'ruolo.capoF': 'Capofamiglia', 'ruolo.capoG': 'Capogruppo', 'ruolo.fam': 'Familiare', 'ruolo.membro': 'Componente',
+      'foot.titolo': 'A presto in via Bressanone.', 'foot.testo': 'Per qualsiasi cosa scrivimi su WhatsApp.', 'foot.privacy': 'Privacy',
+      'wa': 'Scrivimi', 'wa.msg': 'Ciao! Ti scrivo dal sito di Bee&blu.',
+      'priv.chiudi': 'Chiudi',
+      paesi: ['Italia', 'Francia', 'Germania', 'Spagna', 'Regno Unito', 'Irlanda', 'Stati Uniti', 'Canada', 'Svizzera', 'Austria', 'Paesi Bassi', 'Belgio', 'Lussemburgo', 'Portogallo', 'Polonia', 'Repubblica Ceca', 'Grecia', 'Svezia', 'Norvegia', 'Danimarca', 'Finlandia', 'Romania', 'Ungheria', 'Croazia', 'Slovenia', 'Turchia', 'Israele', 'Cina', 'Giappone', 'Corea del Sud', 'India', 'Australia', 'Nuova Zelanda', 'Brasile', 'Argentina', 'Messico', 'Cile', 'Colombia', 'Sudafrica', 'Egitto', 'Marocco', 'Emirati Arabi Uniti', 'Ucraina', 'Albania', 'San Marino'],
+      documenti: [['IDENT', "Carta d'identità"], ['IDELE', "Carta d'identità elettronica"], ['PASOR', 'Passaporto'], ['PATEN', 'Patente di guida']],
+    },
+    en: {
+      'nav.checkin': 'Check-in',
+      'alt.hero': 'Living room with velvet sofa, smart TV, a palm and cloud-shaped mirrors',
+      'alt.casa': 'Double bedroom with white bed, glass-door wardrobe and framed prints',
+      'hero.titolo': 'Bee&amp;Blu, Milan.',
+      'hero.lead': 'Two-bedroom apartment with a private balcony on Via Bressanone, Certosa area. Up to 3 guests, self check-in, a few minutes from tram 14 and the M1 metro.',
+      'hero.cta1': 'See the apartment', 'hero.cta2': 'Things to do in Milan',
+      'chip.trilocale': 'Up to 3 guests', 'chip.self': 'Self check-in', 'chip.balcone': 'Private balcony',
+      'casa.et': 'The apartment', 'casa.titolo': 'Two bedrooms, living room and balcony.',
+      'casa.intro': 'One bedroom with a double bed, one with a single bed, a living room and a kitchen with oven and hob. Fully electric, with air conditioning and Wi-Fi.',
+      'casa.didascalia': 'The double bedroom.',
+      'dot.divano': '2 bedrooms', 'dot.luce': 'Air conditioning', 'dot.balcone': 'Private balcony',
+      'sog.et': 'Your stay', 'sog.titolo': 'Self check-in from 3:00 pm.', 'sog.intro': 'No key handover: you get in with a code.',
+      'sog.p1t': 'Book', 'sog.p1': 'On Airbnb or Booking.',
+      'sog.p2t': 'Online check-in', 'sog.p2': 'You get a link and register all guests, as Italian law requires.',
+      'sog.p3t': 'Get your code', 'sog.p3': 'The day before arrival I send you the keypad code.',
+      'sog.p4t': 'Come in', 'sog.p4': 'From 3:00 pm. Check-out is by 11:00 am.',
+      'mi.et': 'Things to do in Milan', 'mi.titolo': 'Exhibitions and places to see.', 'mi.intro': 'Exhibitions on now and a few places I always recommend.',
+      'mi.f.tutto': 'All', 'mi.f.mostre': 'Exhibitions', 'mi.f.gratis': 'Free', 'mi.f.sempre': 'Always good',
+      'mi.sorpresa': "I don't know what to do, surprise me",
+      'mi.aggiornato': 'Exhibitions updated on {d}.', 'mi.vuoto': 'Nothing in this category right now.',
+      'mi.fino': 'until {d}', 'mi.libero': 'free entry', 'mi.sito': 'Official site', 'mi.arrivo': 'Directions',
+      'mi.incorso': 'On now', 'mi.apre': 'Opens {d}', 'mi.ultimo': 'Last day', 'mi.ultimi': 'Last {n} days', 'mi.gratis': 'Free',
+      'dove.et': 'Where we are', 'dove.intro': 'Certosa, a quiet residential area. Tram 14 and the M1 metro are a few minutes away: easy for Rho Fiera, San Siro and the city centre. You get the exact address after booking.',
+      'dove.in': 'from 3:00 pm', 'dove.out': 'by 11:00 am', 'dove.ingresso': 'Entry', 'dove.codice': 'self, with a code', 'dove.mappa': 'Open in Google Maps',
+      'ci.titolo': 'Register your guests before you arrive.',
+      'ci.intro': 'Italian law requires us to register every guest with the State Police. It takes a couple of minutes.',
+      'ci.r1': 'Data stored on servers in Europe, visible only to the host.', 'ci.r2': 'Document photos are deleted after registration.', 'ci.r3': 'Only the person who booked needs an ID.',
+      'ci.cerca': 'Find your booking', 'ci.cercaSotto': 'Use the link I sent you, or your Airbnb or Booking reservation code.', 'ci.codice': 'Check-in code',
+      'ci.continua': 'Continue', 'ci.nonTrovato': "We can't find this code. Check your welcome message or message me on WhatsApp.",
+      'ci.ciao': 'Hi {n}!', 'ci.arrivo': 'Arrival', 'ci.notti': 'Nights', 'ci.ospiti': 'Guests',
+      'ci.viaggiate': 'Travelling as', 'ci.famiglia': 'Family or couple', 'ci.gruppo': 'Friends',
+      'ci.foto': 'Take a photo of your ID', 'ci.fotoSotto': 'ID card or passport.', 'ci.fotoOk': 'ID uploaded', 'ci.fotoOkSotto': 'Now fill in the fields below as shown on your ID.',
+      'ci.ospiteN': 'Guest {i} of {n}', 'ci.ospiteSotto': 'For people travelling with you, personal details are enough.',
+      'ci.nome': 'First name', 'ci.cognome': 'Last name', 'ci.nascita': 'Date of birth', 'ci.sesso': 'Sex', 'ci.seleziona': 'Select', 'ci.f': 'Female', 'ci.m': 'Male',
+      'ci.paese': 'Country of birth', 'ci.comune': 'Town of birth', 'ci.comuneEs': 'e.g. Milano', 'ci.citt': 'Citizenship', 'ci.resid': 'Country you live in', 'ci.residCom': 'Town you live in', 'ci.residLoc': 'City you live in', 'ci.residEs': 'e.g. Milano', 'ci.residLocEs': 'e.g. Lyon',
+      'ci.tdoc': 'Document', 'ci.ndoc': 'Document number', 'ci.rilascio': 'Issued in / by', 'ci.rilascioEs': 'Town or country',
+      'ci.indietro': 'Back', 'ci.avanti': 'Next', 'ci.rivedi': 'Review', 'ci.obblig': 'Required',
+      'ci.giusto': 'All correct?', 'ci.giustoSotto': 'Names must be spelled exactly as on the ID.',
+      'ci.consenso': 'I confirm the details are correct and I have read the <button type="button" data-apri-privacy>privacy notice</button>.',
+      'ci.modifica': 'Edit', 'ci.completa': 'Complete',
+      'ci.fatto': 'Done!', 'ci.fattoSotto': 'Check-in complete for {n} {o}. The day before arrival you will receive the door code.', 'ci.ospite1': 'guest', 'ci.ospiteN2': 'guests',
+      'ci.ricomincia': 'Start again', 'ci.cercando': 'Searching…', 'ci.inviando': 'Sending…', 'ci.offline': 'No connection. Check your internet and try again.', 'ci.bloccato': 'Check-in for this booking is already registered. For changes, message me on WhatsApp.', 'ci.gia': 'You already checked in: sending again replaces the previous details.', 'ci.erroreInvio': "We couldn't save your details. Try again shortly or message me on WhatsApp.", 'ci.erroreFoto': 'The ID photo is not valid or too large. Please upload another one.', 'ci.paeseEs': 'Start typing…',
+      'ruolo.singolo': 'Single guest', 'ruolo.capoF': 'Head of family', 'ruolo.capoG': 'Group leader', 'ruolo.fam': 'Family member', 'ruolo.membro': 'Group member',
+      'foot.titolo': 'See you on Via Bressanone.', 'foot.testo': 'For anything you need, message me on WhatsApp.', 'foot.privacy': 'Privacy',
+      'wa': 'Message me', 'wa.msg': "Hi! I'm writing from the Bee&blu website.",
+      'priv.chiudi': 'Close',
+      paesi: ['Italy', 'France', 'Germany', 'Spain', 'United Kingdom', 'Ireland', 'United States', 'Canada', 'Switzerland', 'Austria', 'Netherlands', 'Belgium', 'Luxembourg', 'Portugal', 'Poland', 'Czech Republic', 'Greece', 'Sweden', 'Norway', 'Denmark', 'Finland', 'Romania', 'Hungary', 'Croatia', 'Slovenia', 'Turkey', 'Israel', 'China', 'Japan', 'South Korea', 'India', 'Australia', 'New Zealand', 'Brazil', 'Argentina', 'Mexico', 'Chile', 'Colombia', 'South Africa', 'Egypt', 'Morocco', 'United Arab Emirates', 'Ukraine', 'Albania', 'San Marino'],
+      documenti: [['IDENT', 'ID card'], ['IDELE', 'Electronic ID card'], ['PASOR', 'Passport'], ['PATEN', 'Driving licence']],
+    },
+  };
+
+  const PRIVACY = {
+    it: () => `
+      <h2 id="privacy-titolo">Informativa privacy</h2>
+      <p class="data">Ai sensi degli artt. 13 e 14 del Regolamento UE 2016/679 (GDPR). Ultimo aggiornamento: ottobre 2026.</p>
+      <h3>Chi tratta i tuoi dati</h3>
+      <p>Titolare del trattamento è ${TITOLARE}, gestore dell'alloggio Bee&amp;blu, via Bressanone, Milano. Contatto: ${EMAIL_PRIVACY}.</p>
+      <h3>Quali dati raccogliamo</h3>
+      <ul><li>Dati anagrafici di tutti gli ospiti: nome, cognome, sesso, data e luogo di nascita, cittadinanza.</li>
+      <li>Per chi prenota: tipo, numero e luogo di rilascio del documento d'identità e la sua foto.</li>
+      <li>Dati di contatto e della prenotazione: date, numero di ospiti, telefono o email.</li></ul>
+      <h3>Perché e su quale base</h3>
+      <ul><li>Comunicare le generalità degli ospiti alla Questura tramite il portale Alloggiati Web della Polizia di Stato, come impone l'art. 109 del TULPS. Base giuridica: obbligo di legge (art. 6.1.c GDPR).</li>
+      <li>Trasmettere i dati statistici sugli arrivi e le presenze a Regione Lombardia e ISTAT. Base giuridica: obbligo di legge.</li>
+      <li>Gestire l'imposta di soggiorno del Comune di Milano. Base giuridica: obbligo di legge.</li>
+      <li>Organizzare il soggiorno e risponderti, per esempio su WhatsApp. Base giuridica: esecuzione del contratto (art. 6.1.b GDPR).</li></ul>
+      <p>Fornire i dati richiesti per legge è obbligatorio: senza, non possiamo ospitarti.</p>
+      <h3>Per quanto tempo</h3>
+      <p>Le foto dei documenti vengono cancellate subito dopo l'invio ad Alloggiati Web. Gli altri dati sono conservati solo per il tempo necessario agli obblighi di legge e fiscali, poi cancellati.</p>
+      <h3>A chi li comunichiamo</h3>
+      <ul><li>Questura di Milano (Polizia di Stato), Comune di Milano, Regione Lombardia e ISTAT, per gli obblighi descritti sopra.</li>
+      <li>Fornitori tecnici che ospitano il sito e i dati, nominati responsabili del trattamento, con server nell'Unione Europea.</li></ul>
+      <p>I dati non vengono venduti né usati per pubblicità, e non sono trasferiti fuori dall'Unione Europea.</p>
+      <h3>I tuoi diritti</h3>
+      <p>Puoi chiedere l'accesso, la rettifica, la cancellazione (salvo i dati che la legge ci obbliga a conservare), la limitazione o l'opposizione al trattamento scrivendo a ${EMAIL_PRIVACY}. Puoi anche proporre reclamo al Garante per la protezione dei dati personali (garanteprivacy.it).</p>
+      <h3>Cookie</h3>
+      <p>Questo sito non usa cookie di profilazione né strumenti di analisi o pubblicità. Ricorda solo la lingua che scegli, sul tuo dispositivo.</p>`,
+    en: () => `
+      <h2 id="privacy-titolo">Privacy notice</h2>
+      <p class="data">Under Articles 13 and 14 of EU Regulation 2016/679 (GDPR). Last updated: October 2026.</p>
+      <h3>Who handles your data</h3>
+      <p>The data controller is ${TITOLARE}, host of the Bee&amp;blu apartment, Via Bressanone, Milan, Italy. Contact: ${EMAIL_PRIVACY}.</p>
+      <h3>What we collect</h3>
+      <ul><li>Personal details of every guest: first and last name, sex, date and place of birth, citizenship.</li>
+      <li>For the person who booked: type, number and place of issue of the ID document, and a photo of it.</li>
+      <li>Contact and booking details: dates, number of guests, phone or email.</li></ul>
+      <h3>Why, and on what legal basis</h3>
+      <ul><li>To register guests with the police through the State Police "Alloggiati Web" portal, as required by Article 109 of the Italian Consolidated Law on Public Security (TULPS). Legal basis: legal obligation (Art. 6.1.c GDPR).</li>
+      <li>To send arrival and occupancy statistics to the Lombardy Region and ISTAT. Legal basis: legal obligation.</li>
+      <li>To handle the City of Milan tourist tax. Legal basis: legal obligation.</li>
+      <li>To organise your stay and reply to you, for example on WhatsApp. Legal basis: performance of a contract (Art. 6.1.b GDPR).</li></ul>
+      <p>Providing the data required by law is mandatory: without it we cannot host you.</p>
+      <h3>How long we keep it</h3>
+      <p>Photos of ID documents are deleted right after registration on Alloggiati Web. Other data is kept only as long as legal and tax obligations require, then deleted.</p>
+      <h3>Who receives it</h3>
+      <ul><li>The Milan police headquarters (Questura), the City of Milan, the Lombardy Region and ISTAT, for the obligations above.</li>
+      <li>Technical providers hosting the site and data, appointed as data processors, with servers in the European Union.</li></ul>
+      <p>Your data is never sold or used for advertising, and is not transferred outside the European Union.</p>
+      <h3>Your rights</h3>
+      <p>You can ask for access, correction, erasure (except data the law requires us to keep), restriction or objection by writing to ${EMAIL_PRIVACY}. You can also lodge a complaint with the Italian Data Protection Authority (garanteprivacy.it).</p>
+      <h3>Cookies</h3>
+      <p>This site uses no profiling cookies, analytics or advertising tools. It only remembers your language choice, on your own device.</p>`,
+  };
+
+  // Mostre raccolte il 7 ottobre 2026; nella versione online si aggiornano ogni notte.
+  const AGGIORNATO = '2026-10-07';
+  const IDEE = [
+    { tipo: 'mostre', titolo: 'Matisse. Il mondo in una stanza', luogo: 'MUDEC', dal: '2026-10-08', al: '2027-02-21', sito: 'https://www.mudec.it' },
+    { tipo: 'mostre', titolo: 'Dalí e la Moda', luogo: 'Palazzo Reale', dal: '2026-09-24', al: '2027-01-31', sito: 'https://www.palazzorealemilano.it' },
+    { tipo: 'mostre', titolo: 'I Brueghel', luogo: 'Palazzo Reale', dal: '2026-09-29', al: '2027-01-31', sito: 'https://www.palazzorealemilano.it' },
+    { tipo: 'mostre', titolo: 'Mona Hatoum. Over, under and in between', luogo: 'Fondazione Prada', al: '2026-11-09', sito: 'https://www.fondazioneprada.org' },
+    { tipo: 'mostre', titolo: 'XYZ di Aki Sasamoto', luogo: 'Pirelli HangarBicocca', dal: '2026-09-17', al: '2027-01-17', gratis: true, sito: 'https://pirellihangarbicocca.org' },
+    { tipo: 'mostre', titolo: 'Arnaldo Pomodoro. Una vita', luogo: "Gallerie d'Italia", al: '2026-10-18', sito: 'https://gallerieditalia.com' },
+    { tipo: 'mostre', titolo: 'Werner Bischof. Point of View', luogo: 'Museo Diocesano', al: '2026-10-18', sito: 'https://www.chiostrisanteustorgio.it' },
+    { tipo: 'sempre', titolo: { it: 'Le terrazze del Duomo', en: 'The Duomo rooftops' }, luogo: 'Piazza del Duomo', sito: 'https://www.duomomilano.it',
+      testo: { it: "Milano dall'alto tra le guglie. Meglio al tramonto, con il biglietto preso online.", en: 'Milan from above among the spires. Best at sunset, with a ticket bought online.' } },
+    { tipo: 'sempre', titolo: { it: 'Aperitivo sui Navigli', en: 'Aperitivo on the Navigli' }, luogo: 'Darsena', gratis: true,
+      testo: { it: "Passeggiata lungo l'acqua e spritz al tramonto.", en: 'A walk along the canals and a spritz at sunset.' } },
+    { tipo: 'sempre', titolo: 'Biblioteca degli Alberi', luogo: 'Porta Nuova', gratis: true, sito: 'https://bam.milano.it',
+      testo: { it: 'Il parco tra i grattacieli di Porta Nuova e il Bosco Verticale. Perfetto per una pausa.', en: 'The park between the Porta Nuova towers and the Bosco Verticale. Perfect for a break.' } },
+    { tipo: 'sempre', titolo: 'Cimitero Monumentale', luogo: 'Cimitero Monumentale', gratis: true,
+      testo: { it: 'Un museo a cielo aperto di sculture e architetture. Silenzioso e sorprendente.', en: 'An open-air museum of sculpture and architecture. Quiet and surprising.' } },
+    { tipo: 'sempre', titolo: { it: 'In bici lungo la Martesana', en: 'Cycling along the Martesana' }, luogo: 'Naviglio Martesana', gratis: true,
+      testo: { it: 'Una ciclabile lunga e piatta lungo il canale, tra ville e cascine.', en: 'A long, flat cycle path along the canal, past villas and old farmhouses.' } },
+  ];
+
+  let lingua = 'it';
+  try { const s = localStorage.getItem('beeblu-lingua'); if (s === 'it' || s === 'en') lingua = s; else if (!navigator.language.startsWith('it')) lingua = 'en'; } catch { if (!navigator.language?.startsWith('it')) lingua = 'en'; }
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const t = (k, v = {}) => String(T[lingua][k] ?? k).replace(/\{(\w+)\}/g, (_, x) => v[x] ?? '');
+  const loc = (x) => (x && typeof x === 'object') ? x[lingua] : x;
+  const locale = () => lingua === 'it' ? 'it-IT' : 'en-GB';
+  const oggi = new Date(); oggi.setHours(12, 0, 0, 0);
+  const giorno = (iso) => new Date(iso + 'T12:00:00');
+  const dataBreve = (iso) => giorno(iso).toLocaleDateString(locale(), { day: 'numeric', month: 'short' });
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver((v) => { $('#wa').classList.toggle('nascosto', v[0].isIntersecting); }, { rootMargin: '-30% 0px -30% 0px' }).observe(document.getElementById('checkin'));
+  }
+
+  function applicaLingua() {
+    document.documentElement.lang = lingua;
+    document.querySelectorAll('[data-t]').forEach((el) => { el.innerHTML = t(el.dataset.t); });
+    document.querySelectorAll('[data-t-alt]').forEach((el) => { el.alt = t(el.dataset.tAlt); });
+    document.querySelectorAll('[data-lingua]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.lingua === lingua));
+    const msg = encodeURIComponent(t('wa.msg'));
+    $('#wa').href = WHATSAPP_NUMERO ? `https://wa.me/${WHATSAPP_NUMERO}?text=${msg}` : `https://wa.me/?text=${msg}`;
+    $('#aggiornato').textContent = t('mi.aggiornato', { d: giorno(AGGIORNATO).toLocaleDateString(locale(), { day: 'numeric', month: 'long' }) });
+    $('#privacy-testo').innerHTML = PRIVACY[lingua]();
+    disegnaIdee();
+    render();
+  }
+  document.querySelectorAll('[data-lingua]').forEach((b) => b.addEventListener('click', () => {
+    lingua = b.dataset.lingua;
+    try { localStorage.setItem('beeblu-lingua', lingua); } catch {}
+    applicaLingua();
+  }));
+
+  // --- Privacy
+  const priv = $('#privacy');
+  let primaPrivacy = null;
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('[data-apri-privacy]')) { e.preventDefault(); primaPrivacy = document.activeElement; priv.hidden = false; document.body.style.overflow = 'hidden'; $('#chiudi-privacy').focus(); }
+  });
+  function chiudiPrivacy() { priv.hidden = true; document.body.style.overflow = ''; primaPrivacy?.focus(); }
+  $('#chiudi-privacy').addEventListener('click', chiudiPrivacy);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !priv.hidden) chiudiPrivacy(); });
+
+  // --- Cosa fare a Milano
+  function statoIdea(i) {
+    if (i.tipo !== 'mostre') return { mostra: true };
+    const al = giorno(i.al), dal = i.dal ? giorno(i.dal) : null;
+    if (al < oggi) return { mostra: false };
+    if (dal && dal > oggi) return { mostra: true, badge: t('mi.apre', { d: dataBreve(i.dal) }) };
+    const gg = Math.round((al - oggi) / 864e5);
+    if (gg <= 14) return { mostra: true, badge: gg === 0 ? t('mi.ultimo') : t('mi.ultimi', { n: gg }), forte: true };
+    return { mostra: true, badge: t('mi.incorso') };
+  }
+  let filtro = 'tutto', evidenza = -1;
+  function disegnaIdee() {
+    const lista = IDEE.map((i, k) => ({ ...i, k, s: statoIdea(i) })).filter((i) => i.s.mostra)
+      .filter((i) => filtro === 'tutto' || (filtro === 'gratis' ? i.gratis : i.tipo === filtro));
+    const box = $('#idee');
+    if (!lista.length) { box.innerHTML = `<p class="vuoto-msg">${t('mi.vuoto')}</p>`; return; }
+    box.innerHTML = lista.map((i) => {
+      const badge = i.s.badge ? `<span class="badge ${i.s.forte ? 'forte' : ''}">${esc(i.s.badge)}</span>` : i.gratis ? `<span class="badge">${t('mi.gratis')}</span>` : '';
+      const quando = i.tipo === 'mostre' ? ` · ${t('mi.fino', { d: dataBreve(i.al) })}${i.gratis ? ' · ' + t('mi.libero') : ''}` : '';
+      const mappa = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(i.luogo + ' Milano')}`;
+      return `<article class="idea ${i.k === evidenza ? 'evidenza' : ''}" id="idea-${i.k}">
+        <div class="testa"><h3>${esc(loc(i.titolo))}</h3>${badge}</div>
+        <p class="dove-quando">${esc(i.luogo)}${quando}</p>
+        ${i.testo ? `<p>${esc(loc(i.testo))}</p>` : ''}
+        <div class="link">${i.sito ? `<a class="primo" href="${i.sito}" target="_blank" rel="noopener">${t('mi.sito')}</a>` : ''}<a href="${mappa}" target="_blank" rel="noopener">${t('mi.arrivo')}</a></div>
+      </article>`;
+    }).join('');
+  }
+  document.querySelectorAll('[data-filtro]').forEach((b) => b.addEventListener('click', () => {
+    filtro = b.dataset.filtro; evidenza = -1;
+    document.querySelectorAll('[data-filtro]').forEach((x) => x.setAttribute('aria-pressed', x === b));
+    disegnaIdee();
+  }));
+  $('#sorprendimi').addEventListener('click', () => {
+    const valide = IDEE.map((i, k) => ({ i, k })).filter(({ i, k }) => statoIdea(i).mostra && k !== evidenza);
+    evidenza = valide[Math.floor(Math.random() * valide.length)].k;
+    filtro = 'tutto';
+    document.querySelectorAll('[data-filtro]').forEach((x) => x.setAttribute('aria-pressed', x.dataset.filtro === 'tutto'));
+    disegnaIdee();
+    document.getElementById('idea-' + evidenza)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  // --- Check-in collegato al server
+  const FN = 'https://alumoatfcmeosoncyukx.supabase.co/functions/v1/checkin';
+  const ci = { passo: 0, codice: '', prenotazione: null, tipo: 'famiglia', ospiti: [], indice: 0 };
+  const schermo = $('#schermo');
+  const barre = [...document.querySelectorAll('.avanzamento span')];
+  const opts = (lista, sel) => lista.map((v) => `<option value="${v[0]}" ${v[0] === sel ? 'selected' : ''}>${esc(v[1])}</option>`).join('');
+  const italia = (v) => /^(italia|italy|ita)$/i.test(String(v ?? '').trim());
+  const datalist = () => `<datalist id="paesi">${T[lingua].paesi.map((p) => `<option value="${esc(p)}">`).join('')}</datalist>`;
+
+  async function chiama(corpo) {
+    const r = await fetch(FN, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corpo) });
+    let dati = {}; try { dati = await r.json(); } catch {}
+    return { ok: r.ok, stato: r.status, dati };
+  }
+
+  // Riduce la foto prima dell'invio: max 1600 px, JPEG
+  function comprimi(file) {
+    return new Promise((ok, ko) => {
+      const img = new Image(), url = URL.createObjectURL(file);
+      img.onload = () => {
+        const s = Math.min(1, 1600 / Math.max(img.width, img.height));
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        ok(c.toDataURL('image/jpeg', 0.82));
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); ko(new Error('foto')); };
+      img.src = url;
+    });
+  }
+
+  function avanza(n) { ci.passo = n; render(); }
+  function render() { ci.salva = null; barre.forEach((b, i) => b.classList.toggle('on', i <= ci.passo)); ({ 0: codice, 1: ospite, 2: riepilogo, 3: fatto })[ci.passo](); }
+
+  function codice(msg = '') {
+    const val = schermo.querySelector('#codice')?.value ?? ci.codice;
+    schermo.innerHTML = `
+      <h3>${t('ci.cerca')}</h3>
+      <p class="sotto">${t('ci.cercaSotto')}</p>
+      <form id="f-codice" novalidate>
+        <div class="campi"><div class="campo ${msg ? 'errore' : ''}"><label for="codice">${t('ci.codice')}</label>
+          <input id="codice" class="codice" autocomplete="off" autocapitalize="characters" placeholder="HMABC12345" value="${esc(val)}">
+          <span class="msg" id="codice-msg" ${msg ? '' : 'hidden'}>${esc(msg)}</span></div></div>
+        <div class="azioni-p solo"><button class="btn largo" type="submit">${t('ci.continua')}</button></div>
+      </form>`;
+    $('#f-codice').addEventListener('submit', (e) => { e.preventDefault(); cerca($('#codice').value.trim(), e.submitter); });
+  }
+
+  async function cerca(cod, btn) {
+    if (!cod) return codice(t('ci.nonTrovato'));
+    if (btn) { btn.disabled = true; btn.textContent = t('ci.cercando'); }
+    let r;
+    try { r = await chiama({ azione: 'cerca', codice: cod }); } catch { return codice(t('ci.offline')); }
+    if (!r.ok) return codice(t('ci.nonTrovato'));
+    if (r.dati.bloccato) { ci.codice = cod; return codice(t('ci.bloccato')); }
+    ci.codice = cod;
+    ci.prenotazione = r.dati;
+    ci.tipo = r.dati.tipo_gruppo || 'famiglia';
+    ci.ospiti = Array.from({ length: r.dati.ospiti }, (_, i) => ({ ordine: i }));
+    ci.indice = 0; avanza(1);
+  }
+
+  function ospite() {
+    const p = ci.prenotazione, i = ci.indice, o = ci.ospiti[i], titolare = i === 0;
+    const capo0 = ci.ospiti[0];
+    // Chi viaggia con il titolare di solito vive nello stesso posto: precompiliamo, resta modificabile.
+    if (!titolare && o.res === undefined) { o.res = capo0.res; o.resLoc = capo0.resLoc; }
+    const campoIn = (id, l, v, ph = '', cls = '', extra = '') => `<label for="${id}">${l}</label><input id="${id}" class="${cls}" value="${esc(v)}" placeholder="${esc(ph)}" autocomplete="off" ${extra}><span class="msg" hidden></span>`;
+    const campo = (...a) => `<div class="campo">${campoIn(...a)}</div>`;
+    const paese = (id, l, v) => campo(id, l, v ?? (lingua === 'it' ? 'Italia' : ''), t('ci.paeseEs'), '', 'list="paesi"');
+    schermo.innerHTML = `
+      ${datalist()}
+      ${titolare ? `
+        <h3>${t('ci.ciao', { n: esc(p.nome) })}</h3>
+        <div class="prenot">
+          <div><small>${t('ci.arrivo')}</small><b>${dataBreve(p.arrivo)}</b></div>
+          <div><small>${t('ci.notti')}</small><b>${p.notti}</b></div>
+          <div><small>${t('ci.ospiti')}</small><b>${p.ospiti}</b></div>
+        </div>
+        ${p.completato ? `<p class="sotto" style="margin-top:12px">${t('ci.gia')}</p>` : ''}
+        ${p.ospiti > 1 ? `<div class="campo" style="margin-top:16px"><label id="tipo-l">${t('ci.viaggiate')}</label>
+          <div class="seg" role="group" aria-labelledby="tipo-l">
+            <button type="button" data-tipo="famiglia" aria-pressed="${ci.tipo === 'famiglia'}">${t('ci.famiglia')}</button>
+            <button type="button" data-tipo="gruppo" aria-pressed="${ci.tipo === 'gruppo'}">${t('ci.gruppo')}</button>
+          </div></div>` : ''}
+        <label class="doc ${o.foto ? 'letto' : ''}" id="doc">
+          <input type="file" id="foto-doc" accept="image/*" aria-label="${t('ci.foto')}">
+          ${o.foto ? `<img class="anteprima" src="${o.foto}" alt="">` : `<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2.2"/><path d="M14 10h4M14 14h4M6.5 16c.6-1.4 1.6-2 2.5-2s1.9.6 2.5 2"/></svg></span>`}
+          <div><strong>${o.foto ? t('ci.fotoOk') : t('ci.foto')}</strong>
+          <span>${o.foto ? t('ci.fotoOkSotto') : t('ci.fotoSotto')}</span></div>
+        </label>` : `
+        <h3>${t('ci.ospiteN', { i: i + 1, n: p.ospiti })}</h3>
+        <p class="sotto">${t('ci.ospiteSotto')}</p>`}
+      <form id="f-ospite" novalidate>
+        <div class="campi">
+          ${campo('nome', t('ci.nome'), o.nome)}
+          ${campo('cognome', t('ci.cognome'), o.cognome)}
+          <div class="campo"><label for="nascita">${t('ci.nascita')}</label><input id="nascita" type="date" value="${esc(o.nascita)}" max="${new Date().toISOString().slice(0, 10)}"><span class="msg" hidden></span></div>
+          <div class="campo"><label for="sesso">${t('ci.sesso')}</label><select id="sesso"><option value="">${t('ci.seleziona')}</option>${opts([['F', t('ci.f')], ['M', t('ci.m')]], o.sesso)}</select><span class="msg" hidden></span></div>
+          ${paese('nato', t('ci.paese'), o.nato)}
+          <div class="campo" id="w-comune" ${italia(o.nato ?? (lingua === 'it' ? 'Italia' : '')) ? '' : 'hidden'}>${campoIn('comune', t('ci.comune'), o.comune, t('ci.comuneEs'))}</div>
+          ${paese('citt', t('ci.citt'), o.citt)}
+          ${paese('res', t('ci.resid'), o.res)}
+          <div class="campo" id="w-resloc">${campoIn('resloc', italia(o.res ?? (lingua === 'it' ? 'Italia' : '')) ? t('ci.residCom') : t('ci.residLoc'), o.resLoc, t('ci.residEs'))}</div>
+          ${titolare ? `
+          <div class="campo"><label for="tdoc">${t('ci.tdoc')}</label><select id="tdoc">${opts(T[lingua].documenti, o.tdoc || 'IDENT')}</select></div>
+          ${campo('ndoc', t('ci.ndoc'), o.ndoc, '', 'codice')}
+          ${campo('rilascio', t('ci.rilascio'), o.rilascio, t('ci.rilascioEs'))}` : ''}
+        </div>
+        <div class="azioni-p">
+          <button class="btn vuoto" type="button" id="indietro">${t('ci.indietro')}</button>
+          <button class="btn" type="submit">${i < p.ospiti - 1 ? t('ci.avanti') : t('ci.rivedi')}</button>
+        </div>
+      </form>`;
+
+    schermo.querySelectorAll('[data-tipo]').forEach((b) => b.addEventListener('click', () => {
+      ci.tipo = b.dataset.tipo;
+      schermo.querySelectorAll('[data-tipo]').forEach((x) => x.setAttribute('aria-pressed', x === b));
+    }));
+    $('#nato').addEventListener('input', (e) => { $('#w-comune').hidden = !italia(e.target.value); });
+    $('#res').addEventListener('input', (e) => { $('#w-resloc label').textContent = italia(e.target.value) ? t('ci.residCom') : t('ci.residLoc'); });
+
+    function salva() {
+      const v = (id) => $('#' + id)?.value.trim() ?? '';
+      Object.assign(o, { nome: v('nome'), cognome: v('cognome'), nascita: v('nascita'), sesso: v('sesso'), nato: v('nato'), comune: v('comune'), citt: v('citt'), res: v('res'), resLoc: v('resloc') });
+      if (titolare) Object.assign(o, { tdoc: v('tdoc'), ndoc: v('ndoc').toUpperCase(), rilascio: v('rilascio') });
+    }
+    ci.salva = salva;
+    const fd = $('#foto-doc');
+    if (fd) fd.addEventListener('change', async () => {
+      const f = fd.files[0]; if (!f) return;
+      salva();
+      try { o.foto = await comprimi(f); }
+      catch { o.foto = await new Promise((ok) => { const r = new FileReader(); r.onload = () => ok(r.result); r.readAsDataURL(f); }); }
+      render();
+    });
+
+    $('#indietro').addEventListener('click', () => { salva(); if (i === 0) avanza(0); else { ci.indice--; render(); } });
+    $('#f-ospite').addEventListener('submit', (e) => {
+      e.preventDefault(); salva();
+      const obblig = ['nome', 'cognome', 'nascita', 'sesso', 'nato', 'citt', 'res', 'resloc'];
+      if (italia(o.nato)) obblig.push('comune');
+      if (titolare) obblig.push('ndoc', 'rilascio');
+      let ok = true;
+      obblig.forEach((id) => {
+        const el = $('#' + id), box = el.closest('.campo'), m = box.querySelector('.msg'), vuoto = !el.value.trim();
+        box.classList.toggle('errore', vuoto);
+        if (m) { m.hidden = !vuoto; m.textContent = vuoto ? t('ci.obblig') : ''; }
+        if (vuoto && ok) { el.focus(); ok = false; }
+      });
+      if (!ok) return;
+      ci.salva = null;
+      if (i < p.ospiti - 1) { ci.indice++; render(); } else avanza(2);
+    });
+  }
+
+  function riepilogo(msg = '') {
+    const p = ci.prenotazione;
+    const ruolo = (i) => p.ospiti === 1 ? t('ruolo.singolo') : i === 0 ? t(ci.tipo === 'famiglia' ? 'ruolo.capoF' : 'ruolo.capoG') : t(ci.tipo === 'famiglia' ? 'ruolo.fam' : 'ruolo.membro');
+    const spuntato = $('#ok-privacy')?.checked ?? false;
+    schermo.innerHTML = `
+      <h3>${t('ci.giusto')}</h3>
+      <p class="sotto">${t('ci.giustoSotto')}</p>
+      <div class="riepilogo">
+        ${ci.ospiti.map((o, i) => `<div class="persona"><div><b>${esc(o.nome)} ${esc(o.cognome)}</b>
+          <small>${giorno(o.nascita).toLocaleDateString(locale())}${i === 0 ? ' · ' + esc(o.ndoc) : ''}</small></div>
+          <span class="badge">${ruolo(i)}</span></div>`).join('')}
+      </div>
+      <form id="f-conferma" novalidate>
+        <div class="consenso"><input type="checkbox" id="ok-privacy" ${spuntato ? 'checked' : ''}>
+          <label for="ok-privacy">${t('ci.consenso')}</label></div>
+        ${msg ? `<p class="msg" role="alert" style="color:var(--errore);font-weight:500;font-size:14px;margin-top:12px">${esc(msg)}</p>` : ''}
+        <div class="azioni-p">
+          <button class="btn vuoto" type="button" id="indietro">${t('ci.modifica')}</button>
+          <button class="btn" type="submit" id="invia" ${spuntato ? '' : 'disabled'}>${t('ci.completa')}</button>
+        </div>
+      </form>`;
+    $('#ok-privacy').addEventListener('change', (e) => { $('#invia').disabled = !e.target.checked; });
+    $('#indietro').addEventListener('click', () => { ci.indice = ci.ospiti.length - 1; avanza(1); });
+    $('#f-conferma').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = $('#invia'); btn.disabled = true; btn.textContent = t('ci.inviando');
+      const corpo = {
+        azione: 'completa', codice: ci.codice, tipo_gruppo: ci.tipo,
+        foto: ci.ospiti[0].foto || '',
+        ospiti: ci.ospiti.map((o) => ({ nome: o.nome, cognome: o.cognome, sesso: o.sesso, nascita: o.nascita, nato: o.nato, comune: italia(o.nato) ? o.comune : '', citt: o.citt, res: o.res, resItalia: italia(o.res), resLoc: o.resLoc, tdoc: o.tdoc, ndoc: o.ndoc, rilascio: o.rilascio })),
+      };
+      let r;
+      try { r = await chiama(corpo); } catch { return riepilogo(t('ci.offline')); }
+      if (r.ok) return avanza(3);
+      if (r.dati.errore === 'gia_registrato') return riepilogo(t('ci.bloccato'));
+      if (r.dati.errore === 'campi') { ci.indice = (r.dati.ospite || 1) - 1; return avanza(1); }
+      if (r.dati.errore === 'foto' || r.dati.errore === 'foto_grande') return riepilogo(t('ci.erroreFoto'));
+      riepilogo(t('ci.erroreInvio'));
+    });
+  }
+
+  function fatto() {
+    const p = ci.prenotazione;
+    schermo.innerHTML = `
+      <div class="fatto">
+        <span class="logo-m ape" aria-hidden="true"></span>
+        <h3>${t('ci.fatto')}</h3>
+        <p class="sotto">${t('ci.fattoSotto', { n: p.ospiti, o: p.ospiti === 1 ? t('ci.ospite1') : t('ci.ospiteN2'), d: dataBreve(p.arrivo) })}</p>
+      </div>`;
+    ci.ospiti.forEach((o) => { delete o.foto; });
+  }
+
+  // Cambio lingua a metà modulo: salva prima quello che è stato scritto.
+  const applica = applicaLingua;
+  document.querySelectorAll('[data-lingua]').forEach((b) => b.addEventListener('click', () => { if (ci.salva) ci.salva(); }, { capture: true }));
+
+  // Link personale: /?c=CODICE#checkin
+  const daLink = new URLSearchParams(location.search).get('c');
+  if (daLink) setTimeout(() => { cerca(daLink); document.getElementById('checkin')?.scrollIntoView(); }, 0);
+  applica();
+})();
+</script>
+
+</body></html>
