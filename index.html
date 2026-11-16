@@ -1,5 +1,6 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<meta charset="utf-8">
+<!doctype html>
+<html lang="it">
+<head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Bee&amp;blu: un trilocale luminoso in via Bressanone, Milano. Self check-in, check-in online e consigli su cosa fare in città.">
 <link rel="icon" href="img/logo.svg" type="image/svg+xml">
@@ -8,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;0,9..40,900&display=swap">
 <style>
-/* Layout: mobile first. Una colonna stile telefono; su schermi larghi resta centrata su fondo azzurro finché non disegniamo il desktop. Forme a goccia come il logo, un solo accento: il blu. */
+/* Layout: mobile first, con versione desktop da 960px. Forme a goccia come il logo, un solo accento: il blu. */
 :root {
   --blu: #003DB2;
   --blu-forte: #002C82;
@@ -235,13 +236,84 @@ footer p { color: var(--tenue); font-size: 15px; }
 footer .logo-grande { width: 150px; }
 .fatto .ape { width: 110px; }
 .foto-sito { background: var(--cielo); }
+.nav-desk { display: none !important; }
+
+/* ---------- Desktop (da 960px) ---------- */
+@media (min-width: 960px) {
+  :root { --g: 56px; }
+  .sito { max-width: 1240px; margin-block: 28px; border-radius: 48px; }
+  .top { padding: 18px var(--g); border-radius: 48px 48px 0 0; }
+  .top .marchio .logo-m { width: 52px; }
+  .top .btn { padding: 12px 22px; font-size: 16px; }
+  .nav-desk { display: flex !important; gap: 4px; margin-right: 12px; }
+  .nav-desk a { text-decoration: none; font-weight: 700; font-size: 15px; color: var(--tenue); padding: 9px 14px; border-radius: var(--r-pill); }
+  .nav-desk a:hover { background: var(--cielo); color: var(--blu); }
+
+  .hero { display: grid; grid-template-columns: 1.1fr 1fr; column-gap: 64px; align-content: center; padding: 40px var(--g) 72px; }
+  .hero > * { grid-column: 1; }
+  .hero .cornice { grid-column: 2; grid-row: 1 / span 5; align-self: center; aspect-ratio: 4 / 5; max-height: 680px; width: 100%; }
+  .hero h1 { font-size: clamp(96px, 9.5vw, 132px); margin-top: 0; align-self: end; }
+  .hero .lead { font-size: 22px; max-width: 30ch; }
+  .hero .azioni { grid-template-columns: auto auto; justify-content: start; }
+  .hero .azioni .btn { width: auto; padding-inline: 28px; }
+  .hero .bollo { width: 140px; right: -24px; top: -28px; }
+
+  .blocco { padding: 72px var(--g); }
+  h2.titolo { font-size: 68px; }
+  .intro { font-size: 19px; max-width: 46ch; }
+
+  .casa { display: grid; grid-template-columns: 1fr 1fr; column-gap: 64px; align-items: start; }
+  .casa > * { grid-column: 1; }
+  .casa figure { grid-column: 2; grid-row: 1 / span 5; margin: 0; }
+  .casa figure img { aspect-ratio: 4 / 5; }
+  .dotazioni { margin-top: 32px; }
+
+  .passi { grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 32px; }
+  .passi li { grid-template-columns: 1fr; align-content: start; padding: 24px; gap: 10px; }
+  .passi .n { grid-row: auto; }
+
+  .milano { margin-inline: 24px; padding: 64px 0 40px; }
+  .milano .pad { padding-inline: 40px; }
+  .filtri { padding-inline: 40px; }
+  .idee { grid-template-columns: repeat(3, 1fr); gap: 14px; padding-inline: 28px; }
+  .sorpresa { margin: 20px 40px 0; max-width: 360px; }
+  .aggiornato { margin-inline: 40px; }
+
+  #dove { display: grid; grid-template-columns: 1fr 1fr; column-gap: 64px; align-items: start; }
+  #dove > * { grid-column: 1; }
+  #dove .orari { grid-column: 2; grid-row: 1 / span 3; margin-top: 0; }
+  #dove > .btn { width: auto; justify-self: start; padding-inline: 28px; }
+
+  .checkin { margin-inline: 24px; padding: 64px 40px 40px; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+  .checkin .pad { position: sticky; top: 110px; padding: 0; }
+  .checkin h2 { font-size: 68px; }
+  .checkin .pannello { margin-top: 0; padding: 32px 30px; }
+  .slot-griglia .doc .anteprima { height: 120px; }
+
+  footer { grid-template-columns: auto 1fr; column-gap: 48px; align-items: center; padding: 64px var(--g) 64px; }
+  footer .logo-grande { grid-row: span 2; width: 170px; }
+  footer .grosso { font-size: 52px; }
+  .legale { grid-column: 1 / -1; grid-template-columns: auto auto 1fr; align-items: center; column-gap: 32px; }
+  .legale .btn { margin-top: 0; justify-self: end; }
+
+  .wa { right: max(24px, calc(50vw - 620px + 24px)); bottom: 28px; }
+  .privacy .dentro { max-width: 760px; }
+}
+@media (min-width: 960px) and (max-width: 1100px) { .idee { grid-template-columns: repeat(2, 1fr); } .passi { grid-template-columns: repeat(2, 1fr); } }
 </style>
-<style>[hidden]{display:none!important} html{color-scheme:light} body{margin:0}</style>
+<style>[hidden]{display:none!important}</style>
+</head>
+<body>
 <div class="sito">
 <header class="top">
   <a class="marchio" href="#inizio" aria-label="Bee&amp;blu">
     <span class="logo-m " aria-hidden="true"></span>
   </a>
+  <nav class="nav-desk" aria-label="Sezioni">
+    <a href="#casa" data-t="nav.casa">La casa</a>
+    <a href="#milano" data-t="nav.milano">Milano</a>
+    <a href="#dove" data-t="nav.dove">Dove siamo</a>
+  </nav>
   <div class="lingua" role="group" aria-label="Lingua / Language">
     <button type="button" data-lingua="it" aria-pressed="true">IT</button>
     <button type="button" data-lingua="en" aria-pressed="false">EN</button>
@@ -380,7 +452,7 @@ footer .logo-grande { width: 150px; }
 
   const T = {
     it: {
-      'nav.checkin': 'Check-in',
+      'nav.checkin': 'Check-in', 'nav.casa': 'La casa', 'nav.milano': 'Milano', 'nav.dove': 'Dove siamo',
       'alt.hero': 'Soggiorno con divano in velluto, Smart TV, palma e specchi a forma di nuvola',
       'alt.casa': 'Camera matrimoniale con letto bianco, armadio con ante in vetro e quadri alle pareti',
       'hero.titolo': 'Bee&amp;Blu, Milano.',
@@ -436,7 +508,7 @@ footer .logo-grande { width: 150px; }
       documenti: [['IDENT', "Carta d'identità"], ['IDELE', "Carta d'identità elettronica"], ['PASOR', 'Passaporto'], ['PATEN', 'Patente di guida']],
     },
     en: {
-      'nav.checkin': 'Check-in',
+      'nav.checkin': 'Check-in', 'nav.casa': 'The flat', 'nav.milano': 'Milan', 'nav.dove': 'Location',
       'alt.hero': 'Living room with velvet sofa, smart TV, a palm and cloud-shaped mirrors',
       'alt.casa': 'Double bedroom with white bed, glass-door wardrobe and framed prints',
       'hero.titolo': 'Bee&amp;Blu, Milan.',
