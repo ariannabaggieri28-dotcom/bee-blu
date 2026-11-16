@@ -1,6 +1,10 @@
 // Bee&blu – collegamento al servizio web Alloggiati Web (Polizia di Stato).
-// Azione "stato": verifica le credenziali e scarica le tabelle ufficiali dei codici
-// (luoghi, tipi documento). È in sola lettura: non invia nessuna schedina.
+// Azioni:
+//  - "stato" (predefinita): verifica le credenziali e scarica le tabelle ufficiali dei codici.
+//  - "controlla" {prenotazione_id}: costruisce le schedine e le fa validare dal servizio Test
+//    della Polizia. NON registra nulla in Questura.
+//  - "invia" {prenotazione_id, conferma: true}: invio vero (Send). Bloccato finché
+//    impostazioni.alloggiati.invio_attivo non è true.
 // Chiamata protetta: ?k= uguale a impostazioni.smoobu.token_webhook.
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
@@ -53,9 +57,42 @@ async function tabella(c: ReturnType<typeof credenziali>, tk: string, tipo: stri
   return { esito: esito(r.xml), righe: csv ? unesc(csv).split(/\r?\n/).filter((l) => l.trim()) : [] };
 }
 
+// Esiti per singola schedina restituiti da Test/Send
+function esitiSchedine(xml: string) {
+  const blocco = tag(xml, 'Dettaglio') ?? '';
+  return [...blocco.matchAll(/<EsitoOperazioneServizio>([\s\S]*?)<\/EsitoOperazioneServizio>/g)].map((m) => esito(m[1]));
+}
+
+async function schedine(c: ReturnType<typeof credenziali>, tk: string, prenotazioneId: string, modalita: 'controllo' | 'invio', debug = false) {
+  const { data: righe, error } = await sb.rpc('schedine_prenotazione', { p_id: prenotazioneId });
+  if (error) return json({ errore: 'costruzione', dettaglio: error.message }, 500);
+  if (!righe?.length) return json({ errore: 'nessun_ospite' }, 404);
+  const problemi = righe.filter((r: { problemi: string[] }) => r.problemi.length);
+  if (problemi.length) {
+    // Dati da correggere: non si chiama nemmeno il servizio
+    await sb.from('invii_alloggiati').insert({ prenotazione_id: prenotazioneId, modalita, schedine_valide: 0, esito: { fase: 'conversione', righe } });
+    if (modalita === 'invio') await sb.from('prenotazioni').update({ stato: 'errore' }).eq('id', prenotazioneId);
+    return json({ ok: false, fase: 'conversione', problemi: problemi.map((r: { ordine: number; problemi: string[] }) => ({ ospite: r.ordine + 1, problemi: r.problemi })) });
+  }
+  const elenco = righe.map((r: { record: string }) => `<string>${esc(r.record)}</string>`).join('');
+  const azione = modalita === 'invio' ? 'Send' : 'Test';
+  const r = await soap(azione, `<Utente>${esc(c.utente)}</Utente><token>${esc(tk)}</token><ElencoSchedine>${elenco}</ElencoSchedine>`);
+  const generale = esito(r.xml);
+  const valide = Number(tag(r.xml, 'SchedineValide') ?? 0);
+  const perRiga = esitiSchedine(r.xml);
+  const ok = generale.ok && valide === righe.length;
+  const registro = { fase: 'servizio', azione, http: r.stato, generale, valide, per_riga: perRiga, righe: righe.map((x: { ordine: number; dettagli: unknown }) => ({ ordine: x.ordine, dettagli: x.dettagli })) };
+  await sb.from('invii_alloggiati').insert({ prenotazione_id: prenotazioneId, modalita, schedine_valide: valide, esito: registro });
+  if (modalita === 'invio') await sb.from('prenotazioni').update({ stato: ok ? 'inviato' : 'errore' }).eq('id', prenotazioneId);
+  return json({ ok, azione, valide, totale: righe.length, generale, per_riga: perRiga, http: r.stato, risposta: ok && !debug ? undefined : r.xml.slice(0, 3000) });
+}
+
 Deno.serve(async (req) => {
   const { data: imp } = await sb.from('impostazioni').select('valore').eq('chiave', 'smoobu').single();
   if (new URL(req.url).searchParams.get('k') !== imp?.valore?.token_webhook) return json({ errore: 'non_autorizzato' }, 401);
+  let corpo: Record<string, unknown> = {};
+  if (req.method === 'POST') { try { corpo = await req.json(); } catch { /* corpo vuoto */ } }
+  const azione = String(corpo.azione ?? 'stato');
 
   const c = credenziali();
   const mancano = [!c.utente && 'utente', !c.password && 'password', !c.wskey && 'wskey'].filter(Boolean);
@@ -63,6 +100,16 @@ Deno.serve(async (req) => {
 
   const t = await token(c);
   if (!t.token) return json({ errore: 'token', esito: t.esito, http: t.http, secrets_usati: c.usati });
+
+  if (azione === 'controlla' || azione === 'invia') {
+    const id = String(corpo.prenotazione_id ?? '');
+    if (!/^[0-9a-f-]{36}$/.test(id)) return json({ errore: 'prenotazione_id' }, 400);
+    if (azione === 'invia') {
+      const { data: cfg } = await sb.from('impostazioni').select('valore').eq('chiave', 'alloggiati').maybeSingle();
+      if (cfg?.valore?.invio_attivo !== true || corpo.conferma !== true) return json({ errore: 'invio_non_attivo' }, 403);
+    }
+    return schedine(c, t.token, id, azione === 'invia' ? 'invio' : 'controllo', corpo.debug === true);
+  }
 
   const auth = await soap('Authentication_Test', `<Utente>${esc(c.utente)}</Utente><token>${esc(t.token)}</token>`);
 
