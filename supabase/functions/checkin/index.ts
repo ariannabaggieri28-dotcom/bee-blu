@@ -159,6 +159,8 @@ Deno.serve(async (req) => {
       tipo_documento: titolare ? testo(o.tdoc, 5) : null,
       numero_documento: titolare ? testo(o.ndoc, 30).toUpperCase().replace(/[^A-Z0-9]/g, '') : null,
       luogo_rilascio: titolare ? testo(o.rilascio, 60) : null,
+      // tutte le righe devono avere le stesse colonne (insert multiplo)
+      foto_documento_path: null as string | null, foto_retro_path: null as string | null, foto_storico: [] as string[],
     };
     const manca = !r.nome || !r.cognome || !r.sesso || !r.data_nascita || !r.stato_nascita || !r.cittadinanza || !r.residenza_stato
       || (titolare && (!r.numero_documento || !r.luogo_rilascio || !r.tipo_documento));
@@ -196,7 +198,7 @@ Deno.serve(async (req) => {
     if (retro) { if (prec?.foto_retro_path) storico.push(prec.foto_retro_path); pathRetro = await carica(retro as { bytes: Uint8Array; est: string; mime: string }, 'retro'); }
     else if (!serveRetro && prec?.foto_retro_path) storico.push(prec.foto_retro_path);
   } catch { return risposta({ errore: 'salvataggio' }, 500); }
-  righe[0] = { ...righe[0], foto_documento_path: pathFronte, foto_retro_path: pathRetro, foto_storico: [...new Set(storico)] } as typeof righe[0];
+  righe[0] = { ...righe[0], foto_documento_path: pathFronte, foto_retro_path: pathRetro, foto_storico: [...new Set(storico)] };
 
   // Un nuovo invio sostituisce i dati precedenti (l'ospite può correggere fino all'invio in Questura).
   // Le foto vecchie NON vengono cancellate: restano nel bucket e nello storico.

@@ -203,3 +203,6 @@ grant execute on function public.testo_schedina(text, int) to service_role;
 
 revoke all on function public.verifica_ospite(jsonb, boolean) from public, anon, authenticated;
 grant execute on function public.verifica_ospite(jsonb, boolean) to service_role;
+
+-- Rifiniture applicate dopo i test (vedi DB): fuzzystrmatch + suggerisci_comune (refusi tipo "Mialno" -> Milano,
+-- con priorità alle lettere scambiate), messaggio dedicato se come luogo di rilascio si scrive "Italia".
