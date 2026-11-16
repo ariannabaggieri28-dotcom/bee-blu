@@ -5,6 +5,8 @@
 //    della Polizia. NON registra nulla in Questura.
 //  - "invia" {prenotazione_id, conferma: true}: invio vero (Send). Bloccato finché
 //    impostazioni.alloggiati.invio_attivo non è true.
+//  - "automatico": lanciato ogni ora da pg_cron. Invia i check-in completati con arrivo oggi
+//    (dopo le 15, ora di Roma) o ieri, e registra in "controlli" chi è arrivato senza check-in.
 // Chiamata protetta: ?k= uguale a impostazioni.smoobu.token_webhook.
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
@@ -100,6 +102,45 @@ Deno.serve(async (req) => {
 
   const t = await token(c);
   if (!t.token) return json({ errore: 'token', esito: t.esito, http: t.http, secrets_usati: c.usati });
+
+  if (azione === 'automatico') {
+    const { data: cfg } = await sb.from('impostazioni').select('valore').eq('chiave', 'alloggiati').maybeSingle();
+    if (cfg?.valore?.invio_attivo !== true) return json({ ok: true, saltato: 'invio_non_attivo' });
+    const roma = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+    const v = (t: string) => roma.find((x) => x.type === t)!.value;
+    const oggi = `${v('year')}-${v('month')}-${v('day')}`, ora = Number(v('hour'));
+    const d = new Date(oggi + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() - 1);
+    const ieri = d.toISOString().slice(0, 10);
+    const date = ora >= 15 ? [oggi, ieri] : [ieri];
+    const { data: pren } = await sb.from('prenotazioni').select('id,codice_canale,titolare,data_arrivo,stato')
+      .in('data_arrivo', date).in('stato', ['check_in_completato', 'in_attesa', 'errore']);
+    const esiti = [];
+    for (const p of pren ?? []) {
+      if (p.stato === 'in_attesa') {
+        if (p.data_arrivo === oggi && ora < 21) { esiti.push({ id: p.id, esito: 'in_attesa_checkin' }); continue; } // può ancora farlo in giornata
+        // Nessun check-in online: va fatto a mano entro 24 ore dall'arrivo
+        await sb.from('controlli').upsert({ chiave: `senza_checkin:${p.id}`, prenotazione_id: p.id, tipo: 'senza_checkin',
+          messaggio: `${p.titolare} (${p.codice_canale}) arrivato il ${p.data_arrivo} senza check-in online: registrare a mano su Alloggiati Web entro 24 ore.` }, { onConflict: 'chiave', ignoreDuplicates: true });
+        esiti.push({ id: p.id, esito: 'senza_checkin' });
+        continue;
+      }
+      if (p.stato === 'errore') {
+        // ritenta solo se nel frattempo l'ospite ha corretto i dati (ultimo invio più vecchio dell'ultima modifica)
+        const { data: ult } = await sb.from('invii_alloggiati').select('creato_il').eq('prenotazione_id', p.id).order('creato_il', { ascending: false }).limit(1);
+        const { data: mod } = await sb.from('ospiti').select('creato_il').eq('prenotazione_id', p.id).order('creato_il', { ascending: false }).limit(1);
+        if (ult?.[0] && mod?.[0] && mod[0].creato_il <= ult[0].creato_il) { esiti.push({ id: p.id, esito: 'errore_in_attesa_correzione' }); continue; }
+      }
+      const r = await schedine(c, t.token, p.id, 'invio');
+      const corpoR = await r.json();
+      if (!corpoR.ok) {
+        await sb.from('controlli').upsert({ chiave: `invio_fallito:${p.id}:${oggi}`, prenotazione_id: p.id, tipo: 'invio_fallito',
+          messaggio: `Invio in Questura NON riuscito per ${p.titolare} (${p.codice_canale}): ${JSON.stringify(corpoR.problemi ?? corpoR.per_riga ?? corpoR.generale)}` }, { onConflict: 'chiave', ignoreDuplicates: true });
+      }
+      esiti.push({ id: p.id, esito: corpoR.ok ? 'inviato' : 'errore' });
+    }
+    await sb.from('impostazioni').upsert({ chiave: 'ultimo_giro_alloggiati', valore: { quando: new Date().toISOString(), esiti } });
+    return json({ ok: true, date, esiti });
+  }
 
   if (azione === 'controlla' || azione === 'invia') {
     const id = String(corpo.prenotazione_id ?? '');

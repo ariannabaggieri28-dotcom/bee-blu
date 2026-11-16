@@ -35,7 +35,8 @@ Deno.serve(async (req) => {
 
   const prenotazione = ['newReservation', 'updateReservation', 'cancelReservation', 'deleteReservation'].includes(azione);
   if (prenotazione) {
-    await sb.from('impostazioni').update({ valore: { ...imp!.valore, ultimo_evento: { azione, id: smoobuId || null, il: new Date().toISOString() } }, aggiornato_il: new Date().toISOString() }).eq('chiave', 'smoobu');
+    // teniamo anche l'elenco dei campi ricevuti (non i valori) per verificare cosa manda Smoobu
+    await sb.from('impostazioni').update({ valore: { ...imp!.valore, ultimo_evento: { azione, id: smoobuId || null, il: new Date().toISOString(), campi: Object.keys(d).slice(0, 80) } }, aggiornato_il: new Date().toISOString() }).eq('chiave', 'smoobu');
   }
   if (!prenotazione) return json({ ok: true, ignorato: azione });
   if (!smoobuId) return json({ ok: true, ignorato: 'senza_id' });
@@ -68,6 +69,8 @@ Deno.serve(async (req) => {
     notti,
     ospiti_attesi: ospiti,
     lingua: t(d.language, 10),
+    // "Istruzioni per l'assistente" di Smoobu: lì Arianna scrive il codice del tastierino
+    note_assistente: t(d['assistant-notice'] ?? d.assistantNotice ?? d['assistant_notice'], 500),
     aggiornato_il: new Date().toISOString(),
   };
 

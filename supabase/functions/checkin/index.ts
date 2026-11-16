@@ -37,7 +37,8 @@ async function trova(codiceGrezzo: unknown): Promise<Prenotazione | null> {
   const { data, error } = await sb
     .from('prenotazioni')
     .select('id,titolare,data_arrivo,notti,ospiti_attesi,tipo_gruppo,stato')
-    .or(`token_checkin.eq.${codice.toLowerCase()},codice_canale.ilike.${codice}`)
+    // il link dei messaggi usa il numero di prenotazione Smoobu; l'ospite può scrivere anche il codice Airbnb/Booking
+    .or(`token_checkin.eq.${codice.toLowerCase()},codice_canale.ilike.${codice}` + (/^\d{5,12}$/.test(codice) ? `,smoobu_id.eq.${codice}` : ''))
     .neq('stato', 'annullata')
     .order('data_arrivo', { ascending: true });
   if (error || !data?.length) return null;

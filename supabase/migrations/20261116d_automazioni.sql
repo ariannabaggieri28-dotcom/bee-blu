@@ -1,0 +1,6 @@
+-- Applicate dal vivo il 16/11/2026 (vedi cronologia migrazioni Supabase):
+-- invio_automatico_alloggiati: tabella controlli, impostazioni.alloggiati.invio_attivo = true,
+--   job pg_cron "alloggiati-automatico" ogni ora al minuto 15 (azione "automatico" della funzione alloggiati).
+-- note_assistente: prenotazioni.note_assistente (codice tastierino da Smoobu, "Istruzioni per l'assistente").
+-- rapporto_giornaliero: funzioni problemi_reali(uuid) e rapporto_giornaliero() usate dal controllo
+--   pianificato delle 9:37 e 20:37.
