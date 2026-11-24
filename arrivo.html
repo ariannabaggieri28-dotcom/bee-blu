@@ -3,13 +3,14 @@
 <head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<meta name="description" content="Bee&amp;blu: come arrivare all'appartamento in via Bressanone 10, Milano. How to get into the apartment.">
+<meta name="description" content="Bee&amp;blu: come entrare nell'appartamento in via Bressanone 10, Milano. How to get into the apartment.">
 <link rel="icon" href="img/logo.svg" type="image/svg+xml">
-<title>Bee&amp;blu · Arrivo / Arrival</title>
+<title>Bee&amp;blu · Come entrare</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,900&display=swap">
 <style>
+/* Guida all'arrivo. Stesso stile di index.html. Una lingua alla volta (switcher IT/EN, scelta condivisa con il sito). */
 :root {
   --blu: #003DB2; --crema: #FEFDF8; --cielo: #E5ECFB; --inchiostro: #0B1B44; --tenue: #4C5A7D; --bordo: #D3DDF5;
   --bg: var(--crema); --fondo-esterno: #DCE5FA; --fg: var(--inchiostro); --superficie: #FFFFFF; --su-blu: #FEFDF8; --giallo: #FFC93C;
@@ -21,7 +22,8 @@
 }
 :root[data-theme="dark"] { --bg: #07122E; --fondo-esterno: #030A1C; --fg: #F1F3FB; --superficie: #0E1C45; --cielo: #13265A; --tenue: #A9B6D8; --bordo: #263C7A; --blu: #6E96FF; --su-blu: #07122E; color-scheme: dark; }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--fondo-esterno); color: var(--fg); font-family: var(--font); font-size: 17px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
+html:lang(it) [data-l="en"], html:lang(en) [data-l="it"] { display: none !important; }
+body { margin: 0; background: var(--fondo-esterno); color: var(--fg); font-family: var(--font); font-size: 18px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
 .sito { max-width: 440px; margin: 0 auto; background: var(--bg); min-height: 100vh; overflow-x: clip; }
 @media (min-width: 520px) { .sito { margin-block: 24px; border-radius: 36px; box-shadow: 0 30px 80px rgba(0, 30, 100, .18); } }
 img { max-width: 100%; display: block; }
@@ -30,152 +32,179 @@ h1, h2 { margin: 0; line-height: .95; letter-spacing: -0.04em; font-weight: 900;
 p { margin: 0; }
 .logo-m { display: block; aspect-ratio: 263 / 297; background: var(--blu); -webkit-mask: url(img/logo.svg) center / contain no-repeat; mask: url(img/logo.svg) center / contain no-repeat; }
 
-.top { display: flex; align-items: center; gap: 12px; padding: 14px var(--g); }
+.top { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; align-items: center; gap: 10px; padding: 10px var(--g); }
+@media (min-width: 520px) { .top { border-radius: 36px 36px 0 0; } }
 .top .logo-m { width: 40px; }
 .top a.home { margin-right: auto; }
-.pdf { font-weight: 700; font-size: 15px; text-decoration: none; padding: 10px 16px; border-radius: 999px; background: var(--cielo); color: var(--blu); }
+.lingua { display: flex; background: var(--cielo); border-radius: 999px; padding: 3px; }
+.lingua button { font: inherit; font-size: 14px; font-weight: 700; border: 0; background: transparent; color: var(--tenue); padding: 7px 11px; border-radius: 999px; cursor: pointer; }
+.lingua button[aria-pressed="true"] { background: var(--superficie); color: var(--blu); }
+.pdf { font-weight: 700; font-size: 15px; text-decoration: none; padding: 10px 16px; border-radius: 999px; background: var(--blu); color: var(--su-blu); }
 
-.testa { padding: 18px var(--g) 8px; }
+.testa { padding: 22px var(--g) 8px; }
 .etichetta { font-size: 15px; font-weight: 700; color: var(--blu); }
-.testa h1 { font-size: 58px; color: var(--blu); margin-top: 10px; }
-.testa h1 span { display: block; color: var(--tenue); font-size: 30px; margin-top: 8px; letter-spacing: -0.03em; }
-.indirizzo { margin-top: 18px; display: inline-block; font-weight: 700; padding: 8px 14px; border-radius: 999px; background: var(--cielo); }
+.testa h1 { font-size: 64px; color: var(--blu); margin-top: 10px; }
+.indirizzo { margin-top: 18px; display: inline-block; font-weight: 700; font-size: 16px; padding: 8px 14px; border-radius: 999px; background: var(--cielo); }
 
-.codice { margin: 22px var(--g) 0; padding: 18px 20px; border-radius: 28px; background: var(--blu); color: var(--su-blu); }
-.codice p + p { margin-top: 6px; opacity: .82; font-size: 15px; }
+.codice { margin: 22px var(--g) 0; padding: 20px 22px; border-radius: 28px; background: var(--blu); color: var(--su-blu); font-size: 18px; }
 .codice strong { font-weight: 900; }
 
-.passo { padding: 36px var(--g) 8px; break-inside: avoid; page-break-inside: avoid; }
+.passo { padding: 40px var(--g) 4px; }
 .passo .num { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--blu); color: var(--su-blu); font-weight: 900; font-size: 22px; }
-.passo h2 { font-size: 36px; margin-top: 12px; }
-.passo h2 span { display: block; font-size: 22px; color: var(--tenue); margin-top: 6px; letter-spacing: -0.02em; }
+.passo h2 { font-size: 40px; margin-top: 12px; }
 .foto { position: relative; margin-top: 16px; border-radius: 30px; overflow: hidden; box-shadow: 0 18px 40px rgba(0, 30, 100, .14); background: var(--cielo); }
 .foto img { width: 100%; height: auto; }
 .foto svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .segno { fill: none; stroke: var(--giallo); stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 2px 6px rgba(0,0,0,.45)); }
-.testo { margin-top: 16px; display: grid; gap: 10px; }
-.it { font-size: 18px; }
-.en { font-size: 16px; color: var(--tenue); padding-left: 12px; border-left: 3px solid var(--bordo); }
-.tasto { display: inline-grid; place-items: center; min-width: 30px; height: 30px; padding: 0 6px; border-radius: 9px; background: var(--superficie); box-shadow: inset 0 0 0 2px var(--bordo), 0 2px 0 var(--bordo); font-weight: 900; font-size: 16px; color: var(--fg); vertical-align: -6px; }
+.testo { margin-top: 16px; font-size: 19px; }
+.tasto { display: inline-grid; place-items: center; min-width: 32px; height: 32px; padding: 0 6px; border-radius: 9px; background: var(--superficie); box-shadow: inset 0 0 0 2px var(--bordo), 0 2px 0 var(--bordo); font-weight: 900; font-size: 17px; color: var(--fg); vertical-align: -6px; }
 
-.aiuto { margin: 36px var(--g) 0; padding: 22px; border-radius: 30px; background: var(--cielo); display: grid; gap: 8px; }
-.aiuto h2 { font-size: 26px; color: var(--blu); }
-.aiuto .en { border: 0; padding: 0; }
-.btn { display: inline-flex; justify-content: center; margin-top: 8px; padding: 14px 20px; border-radius: 999px; background: var(--blu); color: var(--su-blu); font-weight: 700; text-decoration: none; }
-footer { padding: 30px var(--g) 40px; display: flex; align-items: center; gap: 12px; color: var(--tenue); font-size: 14px; }
+.aiuto { margin: 40px var(--g) 0; padding: 24px; border-radius: 30px; background: var(--cielo); display: grid; gap: 10px; justify-items: start; }
+.aiuto h2 { font-size: 30px; color: var(--blu); }
+.copertina .aiuto { display: none; }
+.btn { display: inline-flex; justify-content: center; margin-top: 4px; padding: 14px 22px; border-radius: 999px; background: var(--blu); color: var(--su-blu); font-weight: 700; text-decoration: none; }
+footer { padding: 32px var(--g) 44px; display: flex; align-items: center; gap: 12px; color: var(--tenue); font-size: 14px; }
 footer .logo-m { width: 30px; }
 
+/* PDF da leggere sul telefono: pagine formato smartphone, un passo per pagina, testo grande. */
 @media print {
-  @page { size: A4; margin: 14mm 14mm; }
-  :root { --bg: #fff; --fondo-esterno: #fff; --fg: #0B1B44; --superficie: #fff; --cielo: #E5ECFB; --tenue: #4C5A7D; --bordo: #D3DDF5; --blu: #003DB2; --su-blu: #FEFDF8; color-scheme: light; }
+  @page { size: 108mm 192mm; margin: 0; }
+  :root { --bg: #FEFDF8; --fondo-esterno: #FEFDF8; --fg: #0B1B44; --superficie: #fff; --cielo: #E5ECFB; --tenue: #4C5A7D; --bordo: #D3DDF5; --blu: #003DB2; --su-blu: #FEFDF8; color-scheme: light; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  body { font-size: 13px; }
-  .sito { max-width: none; margin: 0; box-shadow: none; border-radius: 0; }
-  .pdf, .aiuto .btn { display: none; }
-  .top { padding: 0 0 6mm; }
-  .testa { padding: 0; }
-  .testa h1 { font-size: 44px; }
-  .testa h1 span { font-size: 22px; }
-  .codice { margin: 6mm 0 0; }
-  .passi { display: grid; grid-template-columns: 1fr 1fr; column-gap: 10mm; }
-  .passo { padding: 8mm 0 0; }
-  .passo h2 { font-size: 24px; }
-  .passo h2 span { font-size: 16px; }
-  .foto { border-radius: 18px; box-shadow: none; }
-  .foto img { height: 90mm; object-fit: cover; }
-  .it { font-size: 13.5px; } .en { font-size: 12px; }
-  .tasto { min-width: 22px; height: 22px; font-size: 12px; vertical-align: -4px; border-radius: 7px; }
-  .aiuto { margin: 8mm 0 0; break-inside: avoid; }
-  footer { padding: 6mm 0 0; }
+  html, body { background: var(--bg); }
+  body { font-size: 15px; }
+  .sito { max-width: none; margin: 0; box-shadow: none; border-radius: 0; min-height: 0; }
+  .top { display: none; }
+  .copertina { height: 192mm; padding: 12mm 0 8mm; display: flex; flex-direction: column; break-after: page; }
+  .copertina .logo-m { width: 64px; margin: 0 8mm; }
+  .testa { padding: 10mm 8mm 0; }
+  .testa h1 { font-size: 54px; }
+  .indirizzo { font-size: 14px; }
+  .codice { margin: 8mm 8mm 0; font-size: 16px; padding: 16px 18px; border-radius: 22px; }
+  .copertina .aiuto { display: grid; margin: auto 8mm 0; padding: 16px 18px; gap: 6px; border-radius: 22px; font-size: 14px; }
+  .copertina .aiuto h2 { font-size: 22px; }
+  .passo { height: 192mm; padding: 10mm 8mm 0; break-after: page; overflow: hidden; }
+  .passo:last-of-type { break-after: auto; }
+  .passo .num { width: 38px; height: 38px; font-size: 19px; }
+  .passo h2 { font-size: 32px; margin-top: 8px; }
+  .foto { margin-top: 5mm; border-radius: 20px; box-shadow: none; }
+  .foto img { height: 100mm; object-fit: cover; }
+  .testo { margin-top: 5mm; font-size: 17px; line-height: 1.4; }
+  .tasto { min-width: 28px; height: 28px; font-size: 15px; vertical-align: -5px; }
+  main > .aiuto, footer { display: none; }
 }
+@media screen { .copertina > .logo-m { display: none; } }
 </style>
 </head>
 <body>
 <div class="sito">
 <header class="top">
   <a class="home" href="./" aria-label="Bee&amp;blu"><span class="logo-m" aria-hidden="true"></span></a>
-  <a class="pdf" href="guida-arrivo.pdf" download>PDF</a>
+  <div class="lingua" role="group" aria-label="Lingua / Language">
+    <button type="button" data-lingua="it" aria-pressed="true">IT</button>
+    <button type="button" data-lingua="en" aria-pressed="false">EN</button>
+  </div>
+  <a class="pdf" id="pdf" href="guida-arrivo-it.pdf" download>PDF</a>
 </header>
 
 <main>
-  <section class="testa">
-    <p class="etichetta">Guida all'arrivo · Arrival guide</p>
-    <h1>Come entrare<span>How to get in</span></h1>
-    <p class="indirizzo">Via Bressanone 10, Milano · 1° piano / 1st floor</p>
-  </section>
-
-  <div class="codice">
-    <p><strong>Il codice te lo mandiamo noi in chat</strong>, poco prima del check-in.</p>
-    <p>We send you the code in the chat, shortly before check-in.</p>
+  <div class="copertina">
+    <span class="logo-m" aria-hidden="true"></span>
+    <section class="testa">
+      <p class="etichetta"><span data-l="it">Guida all'arrivo</span><span data-l="en">Arrival guide</span></p>
+      <h1><span data-l="it">Come entrare</span><span data-l="en">How to get in</span></h1>
+      <p class="indirizzo">Via Bressanone 10, Milano · <span data-l="it">1° piano</span><span data-l="en">1st floor</span></p>
+    </section>
+    <div class="codice">
+      <p data-l="it"><strong>Il codice te lo mandiamo noi in chat</strong>, poco prima del check-in.</p>
+      <p data-l="en"><strong>We'll send you the code in the chat</strong>, shortly before check-in.</p>
+    </div>
+    <section class="aiuto">
+      <h2><span data-l="it">Serve aiuto?</span><span data-l="en">Need help?</span></h2>
+      <p><span data-l="it">Scrivici in chat o su WhatsApp:</span><span data-l="en">Message us in the chat or on WhatsApp:</span> <strong>+39 351 599 5973</strong></p>
+    </section>
   </div>
 
-  <div class="passi">
   <section class="passo">
     <span class="num">1</span>
-    <h2>Il portone<span>Main entrance</span></h2>
+    <h2><span data-l="it">Il portone</span><span data-l="en">Main entrance</span></h2>
     <div class="foto">
-      <img src="img/arrivo-1-portone.jpg" width="1000" height="1094" alt="Portone d'ingresso a vetri con il citofono a sinistra / Glass entrance door with the intercom on the left">
+      <img src="img/arrivo-1-portone.jpg" width="1000" height="1094" alt="">
       <svg viewBox="0 0 1000 1094" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle class="segno" cx="354" cy="517" r="95"/></svg>
     </div>
-    <div class="testo">
-      <p class="it">Al citofono premi <span class="tasto">🔑</span>, digita il codice, poi premi di nuovo <span class="tasto">🔑</span>. Il portone si apre.</p>
-      <p class="en" lang="en">On the intercom press <span class="tasto">🔑</span>, enter the code, then press <span class="tasto">🔑</span> again. The door opens.</p>
-    </div>
+    <p class="testo" data-l="it">Al citofono premi <span class="tasto">🔑</span>, digita il codice, poi premi di nuovo <span class="tasto">🔑</span>. Il portone si apre.</p>
+    <p class="testo" data-l="en">On the intercom press <span class="tasto">🔑</span>, enter the code, then press <span class="tasto">🔑</span> again. The door opens.</p>
   </section>
 
   <section class="passo">
     <span class="num">2</span>
-    <h2>Sali al 1° piano<span>Go up to the 1st floor</span></h2>
+    <h2><span data-l="it">Sali al 1° piano</span><span data-l="en">Go up to the 1st floor</span></h2>
     <div class="foto">
-      <img src="img/arrivo-2-atrio.jpg" width="1000" height="651" alt="Atrio con le scale sulla destra / Lobby with the stairs on the right">
+      <img src="img/arrivo-2-atrio.jpg" width="1000" height="651" alt="">
       <svg viewBox="0 0 1000 651" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <path class="segno" d="M360 600 C 470 560, 560 500, 640 420"/>
         <path class="segno" d="M585 425 L 645 415 L 640 478"/>
       </svg>
     </div>
-    <div class="testo">
-      <p class="it">Entra nell'atrio e sali al primo piano, a piedi o in ascensore.</p>
-      <p class="en" lang="en">Walk into the lobby and go up to the first floor, by the stairs or the lift.</p>
-    </div>
+    <p class="testo" data-l="it">Entra nell'atrio e sali al primo piano, a piedi o in ascensore.</p>
+    <p class="testo" data-l="en">Walk into the lobby and go up to the first floor, by the stairs or the lift.</p>
   </section>
 
   <section class="passo">
     <span class="num">3</span>
-    <h2>La porta di fronte<span>The door in front of you</span></h2>
-    <div class="foto alta">
-      <img src="img/arrivo-3-porta.jpg" width="1000" height="1249" alt="Porta bianca dell'appartamento con il tastierino / White apartment door with the keypad">
+    <h2><span data-l="it">La porta di fronte</span><span data-l="en">The door in front of you</span></h2>
+    <div class="foto">
+      <img src="img/arrivo-3-porta.jpg" width="1000" height="1249" alt="">
       <svg viewBox="0 0 1000 1249" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle class="segno" cx="393" cy="398" r="80"/></svg>
     </div>
-    <div class="testo">
-      <p class="it">In cima alle scale, Bee&amp;blu è la prima porta proprio di fronte a te, quella con il tastierino.</p>
-      <p class="en" lang="en">At the top of the stairs, Bee&amp;blu is the first door right in front of you, the one with the keypad.</p>
-    </div>
+    <p class="testo" data-l="it">In cima alle scale, Bee&amp;blu è la prima porta proprio di fronte a te, quella con il tastierino.</p>
+    <p class="testo" data-l="en">At the top of the stairs, Bee&amp;blu is the first door right in front of you, the one with the keypad.</p>
   </section>
 
   <section class="passo">
     <span class="num">4</span>
-    <h2>Codice e ✓<span>Code, then ✓</span></h2>
-    <div class="foto alta">
-      <img src="img/arrivo-4-tastierino.jpg" width="1000" height="1250" alt="Tastierino della porta, il tasto con la spunta in basso a destra / Door keypad, the tick key is bottom right">
+    <h2><span data-l="it">Codice e ✓</span><span data-l="en">Code, then ✓</span></h2>
+    <div class="foto">
+      <img src="img/arrivo-4-tastierino.jpg" width="1000" height="1250" alt="">
       <svg viewBox="0 0 1000 1250" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle class="segno" cx="596" cy="646" r="78"/></svg>
     </div>
-    <div class="testo">
-      <p class="it">Digita il codice sul tastierino e premi <span class="tasto">✓</span> (in basso a destra). La porta si sblocca: benvenuti!</p>
-      <p class="en" lang="en">Enter the code on the keypad and press <span class="tasto">✓</span> (bottom right). The door unlocks: welcome!</p>
-    </div>
+    <p class="testo" data-l="it">Digita il codice sul tastierino e premi <span class="tasto">✓</span> in basso a destra. La porta si sblocca: benvenuti!</p>
+    <p class="testo" data-l="en">Enter the code on the keypad and press <span class="tasto">✓</span> at the bottom right. The door unlocks: welcome!</p>
   </section>
-  </div>
 
   <section class="aiuto">
-    <h2>Qualcosa non va?</h2>
-    <p class="it">Scrivici in chat o su WhatsApp, ti rispondiamo subito.</p>
-    <p class="en" lang="en">Something wrong? Message us in the chat or on WhatsApp, we'll reply right away.</p>
-    <p class="it"><strong>WhatsApp +39 351 599 5973</strong></p>
+    <h2><span data-l="it">Qualcosa non va?</span><span data-l="en">Something wrong?</span></h2>
+    <p data-l="it">Scrivici in chat o su WhatsApp, ti rispondiamo subito.</p>
+    <p data-l="en">Message us in the chat or on WhatsApp, we'll reply right away.</p>
     <a class="btn" href="https://wa.me/393515995973">WhatsApp</a>
   </section>
 </main>
 
 <footer><span class="logo-m" aria-hidden="true"></span>Bee&amp;blu · Via Bressanone 10, Milano</footer>
 </div>
+<script>
+(() => {
+  const ALT = {
+    it: ['Portone d\'ingresso a vetri, il citofono è a sinistra', 'Atrio, le scale sono sulla destra', 'Porta bianca dell\'appartamento con il tastierino', 'Tastierino della porta, il tasto ✓ è in basso a destra'],
+    en: ['Glass entrance door, the intercom is on the left', 'Lobby, the stairs are on the right', 'White apartment door with the keypad', 'Door keypad, the ✓ key is at the bottom right'],
+  };
+  let lingua = 'it';
+  const q = new URLSearchParams(location.search).get('lang');
+  if (q === 'it' || q === 'en') lingua = q;
+  else try { const s = localStorage.getItem('beeblu-lingua'); if (s === 'it' || s === 'en') lingua = s; else if (!navigator.language.startsWith('it')) lingua = 'en'; } catch { if (!navigator.language?.startsWith('it')) lingua = 'en'; }
+  function applica() {
+    document.documentElement.lang = lingua;
+    document.title = lingua === 'it' ? 'Bee&blu · Come entrare' : 'Bee&blu · How to get in';
+    document.querySelectorAll('[data-lingua]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.lingua === lingua));
+    document.querySelectorAll('.foto img').forEach((img, i) => { img.alt = ALT[lingua][i]; });
+    document.getElementById('pdf').href = `guida-arrivo-${lingua}.pdf`;
+  }
+  document.querySelectorAll('[data-lingua]').forEach((b) => b.addEventListener('click', () => {
+    lingua = b.dataset.lingua; applica();
+    try { localStorage.setItem('beeblu-lingua', lingua); } catch {}
+  }));
+  applica();
+})();
+</script>
 </body>
 </html>
